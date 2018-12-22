@@ -9,6 +9,13 @@ struct BSTreeNode {
 	struct BSTreeNode * right;
 };
 
+struct BSTreeNode * create_node (int value);
+struct BSTreeNode * createBST(struct BSTreeNode * root);
+struct BSTreeNode * InsertBSTNode(struct BSTreeNode * root , int key);
+struct BSTreeNode * SearchBST (struct BSTreeNode * root , int search_val);
+void TraverseBST (struct BSTreeNode * root , int space);
+void FreeBST(struct BSTreeNode * root);
+
 struct BSTreeNode * create_node (int value) {
 
 	struct BSTreeNode * new_node = malloc(sizeof(struct BSTreeNode *));
