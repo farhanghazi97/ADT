@@ -3,22 +3,26 @@
 
 int main (void) {
 
-	
-	int value;
-	printf("Enter value for root node: ");
-	scanf("%d" , &value);
-	
-	//printf("Root node : %d\n" , root_node->key);
-	struct BSTreeNode * root_node = create_node(value);
-	root_node->left  = create_node(20);
-	root_node->right = create_node(30);
-	root_node->left->left = create_node(40);
-	root_node->right->left = create_node(50);
-	root_node->right->left->right = create_node(5);
-	root_node->left->left->right = create_node(3);
+	//int input;
 
-	traverse_BST(root_node , 0);
-	FreeBST(root_node);
+	printf("Enter values to create BST:\n");
+	
+	struct BSTreeNode * root_node = NULL; 
+	
+	struct BSTreeNode * BSTree = createBST(root_node);
 
-	return 0;
+	TraverseBST(BSTree , 0);
+
+	//printf("Enter value to look for in tree: ");
+	//scanf("%d" , &input);
+
+	//BSTree = SearchBST(BSTree , input);
+	//if (BSTree != NULL) {
+	//	printf("Key found!\n");
+	//} else {
+	//	printf("Value does not exist within tree!\n");
+	//}
+
+	FreeBST(BSTree);
+
 }

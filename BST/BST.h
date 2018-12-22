@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define COUNT 5
+#define COUNT 3
 
 struct BSTreeNode {
 	int key;
@@ -24,16 +24,24 @@ struct BSTreeNode * InsertBSTNode(struct BSTreeNode * root , int key) {
 		struct BSTreeNode * new_node = create_node(key);
 		return new_node;
 	} else if(key < root->key) {
-		return InsertBSTNode(root->left , key);
-	} else if(key > root->key) {
-		return InsertBSTNode(root->right , key);
+		root->left = InsertBSTNode(root->left , key);
 	} else {
-		return root;
+		root->right =  InsertBSTNode(root->right , key);
 	}
 	return root;
 }
 
-void traverse_BST (struct BSTreeNode * root , int space) {
+	
+struct BSTreeNode * createBST(struct BSTreeNode * root) {
+
+	int input;
+	while((scanf("%d" , &input)) != EOF) {
+		root = InsertBSTNode(root , input);
+	}
+	return root;
+}
+
+void TraverseBST (struct BSTreeNode * root , int space) {
 
 	if(root == NULL) {
 		return;
@@ -41,7 +49,7 @@ void traverse_BST (struct BSTreeNode * root , int space) {
 
 	space += COUNT;
 
-	traverse_BST(root->right , space);
+	TraverseBST(root->left , space);
 	
 	printf("\n");
 	for(int i = COUNT; i < space; i++){
@@ -49,7 +57,8 @@ void traverse_BST (struct BSTreeNode * root , int space) {
 	}
 	printf("%d\n" , root->key);
 	
-	traverse_BST(root->left , space);
+	TraverseBST(root->right , space);
+	
 
 }
 
@@ -60,4 +69,16 @@ void FreeBST(struct BSTreeNode * root) {
 		FreeBST(root->left);
 		free(root);
 	}
+}
+
+struct BSTreeNode * SearchBST (struct BSTreeNode * root , int search_val) {
+
+	if(root->key == search_val) {
+		return root;
+	} else if (search_val < root->key) {
+		root->left = SearchBST(root->left , search_val);
+	} else {
+		root->right = SearchBST(root->right , search_val);
+	}
+	return root;
 }
