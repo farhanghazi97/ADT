@@ -17,6 +17,14 @@ int main(void) {
 			DisplayGraph(my_graph);
 		} else if (ch == 'D') {
 			RemoveEdge(my_graph);
+		} else if (ch == 'H') {
+			printf("\nWelcome to the graph interface\n");
+			printf("------------------------------\n");
+			printf("I = Insert an edge into the graph\n");
+			printf("D = Delete an edge from the graph\n");
+			printf("S = Display the entire graph\n");
+			printf("H = Help interface\n");
+			printf("------------------------------\n");
 		}
 	}
 	FreeGraph(my_graph);
