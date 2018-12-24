@@ -98,3 +98,8 @@ bool SearchBST (struct BSTreeNode * root , int search_val) {
 		return true;	
 	}
 }
+
+struct BSTreeNode * DeleteBST (struct BSTreeNode * root , int value) {
+
+
+}
