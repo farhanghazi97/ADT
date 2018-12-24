@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-#define COUNT 3
+#define COUNT 3 
 
 struct BSTreeNode {
 	int key;
@@ -10,11 +11,11 @@ struct BSTreeNode {
 };
 
 struct BSTreeNode * create_node (int value);
-struct BSTreeNode * createBST(struct BSTreeNode * root);
+struct BSTreeNode * CreateBST(struct BSTreeNode * root);
 struct BSTreeNode * InsertBSTNode(struct BSTreeNode * root , int key);
-struct BSTreeNode * SearchBST (struct BSTreeNode * root , int search_val);
-void TraverseBST (struct BSTreeNode * root , int space);
-void FreeBST(struct BSTreeNode * root);
+bool   SearchBST (struct BSTreeNode * root , int search_val);
+void   TraverseBST  (struct BSTreeNode * root , int space);
+void   FreeBST      (struct BSTreeNode * root);
 
 struct BSTreeNode * create_node (int value) {
 
@@ -39,24 +40,27 @@ struct BSTreeNode * InsertBSTNode(struct BSTreeNode * root , int key) {
 }
 
 	
-struct BSTreeNode * createBST(struct BSTreeNode * root) {
+struct BSTreeNode * CreateBST(struct BSTreeNode * root) {
 
 	int input;
-	while((scanf("%d" , &input)) != EOF) {
+	while(scanf(" %d" , &input) != EOF) {
 		root = InsertBSTNode(root , input);
 	}
+
 	return root;
 }
 
 void TraverseBST (struct BSTreeNode * root , int space) {
 
-	if(root == NULL) {
+	struct BSTreeNode * traverser = root;
+
+	if(traverser == NULL) {
 		return;
 	}
 
 	space += COUNT;
 
-	TraverseBST(root->left , space);
+	TraverseBST(traverser->left , space);
 	
 	printf("\n");
 	for(int i = COUNT; i < space; i++){
@@ -64,7 +68,7 @@ void TraverseBST (struct BSTreeNode * root , int space) {
 	}
 	printf("%d\n" , root->key);
 	
-	TraverseBST(root->right , space);
+	TraverseBST(traverser->right , space);
 	
 
 }
@@ -78,14 +82,19 @@ void FreeBST(struct BSTreeNode * root) {
 	}
 }
 
-struct BSTreeNode * SearchBST (struct BSTreeNode * root , int search_val) {
+bool SearchBST (struct BSTreeNode * root , int search_val) {
 
-	if(root->key == search_val) {
-		return root;
+	if(root == NULL) {
+
+		// ONCE A DEAD END IS HIT , ROOT POINTS TO NOTHING
+		// (i.e NULL)
+
+		return false;
 	} else if (search_val < root->key) {
-		root->left = SearchBST(root->left , search_val);
+		return SearchBST(root->left , search_val);
+	} else if (search_val > root->key ){
+		 return SearchBST(root->right , search_val);
 	} else {
-		root->right = SearchBST(root->right , search_val);
+		return true;	
 	}
-	return root;
 }
