@@ -13,9 +13,9 @@ typedef struct GraphRep {
 
 Graph CreateGraph (int size);
 void DisplayGraph (Graph graph);
-void InsertEdge (Graph graph)
-void RemoveEdge (Graph graph)
-void FreeGraph (Graph graph)
+void InsertEdge (Graph graph);
+void RemoveEdge (Graph graph);
+void FreeGraph (Graph graph);
 
 Graph CreateGraph (int size) {
 	Graph new_graph = malloc(sizeof(Graph));
