@@ -30,6 +30,8 @@ Graph CreateGraph (int size) {
 }
 
 void DisplayGraph (Graph graph) {
+	printf("Total number of vertices : %d\n" , graph->nV);
+	printf("Total number of edges : %d\n" , graph->nE);
 	for(int i = 0; i < graph->nV; i++){
 		for(int j = 0; j < graph->nV; j++){
 			printf("%d " , graph->edges[i][j]);

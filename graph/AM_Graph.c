@@ -10,6 +10,8 @@ int main(void) {
 	DisplayGraph(my_graph);
 
 	char ch;
+	printf("Press H to bring up the graph interface\n");
+	printf("Action : ");
 	while((ch = getchar()) != 'E') {
 		if (ch == 'I') {
 			InsertEdge(my_graph);
@@ -24,9 +26,9 @@ int main(void) {
 			printf("D = Delete an edge from the graph\n");
 			printf("S = Display the entire graph\n");
 			printf("H = Help interface\n");
+			printf("E = Exit program\n");
 			printf("------------------------------\n");
 		}
 	}
-	FreeGraph(my_graph);
-	
+	FreeGraph(my_graph);	
 }
