@@ -47,7 +47,7 @@ Stack Pop (Stack stack) {
 void DisplayStack (Stack stack) {
 
 	printf("\nTOP : ");
-	for(int i = stack->top_elem_index; i > 0; i--){
+	for(int i = stack->top_elem_index; i >= 0; i--){
 		printf("%d " , stack->elems[i]);
 	}
 	printf(": TAIL\n");

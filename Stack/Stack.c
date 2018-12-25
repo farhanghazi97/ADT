@@ -12,6 +12,7 @@ int main(void) {
 	scanf("%d" , &number);
 
 	Stack my_stack = InitializeStack(number);
+	DisplayStack(my_stack);	
 	
 	while(scanf("%d" , &number) != EOF) {
 		my_stack = Push (my_stack , number);
@@ -20,7 +21,7 @@ int main(void) {
 
 	printf("Now we pop elements off stack....\n");
 
-	while (my_stack->top_elem_index > 0) {
+	while (my_stack->top_elem_index >= 0) {
 		Pop(my_stack);
 		sleep(1);
 		DisplayStack(my_stack);	
