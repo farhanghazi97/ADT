@@ -1,6 +1,6 @@
 CC=gcc
 
-AMG : AMG.o
-	$(CC) -o AMG AMG.o
+AMGraph : AMGraph.o
+	$(CC) -o AMGraph AMGraph.o
 
-AMG.o : AM_Graph.c AM_Graph.h
+AMGraph.o : AMGraph.c AMGraph.h

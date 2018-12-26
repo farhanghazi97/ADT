@@ -1,5 +1,5 @@
 #include  <stdio.h>
-#include "AM_Graph.h"
+#include "AMGraph.h"
 
 int main(void) {
 
