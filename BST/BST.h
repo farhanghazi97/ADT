@@ -43,7 +43,8 @@ struct BSTreeNode * InsertBSTNode(struct BSTreeNode * root , int key) {
 struct BSTreeNode * CreateBST(struct BSTreeNode * root) {
 
 	int input;
-	while(scanf(" %d" , &input) != EOF) {
+	while(input != EOF) {
+		scanf("%d" , &input);
 		root = InsertBSTNode(root , input);
 	}
 

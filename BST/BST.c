@@ -6,7 +6,7 @@
 int main (void) {
 
 	printf("\nEnter values to create BST:\n");
-	printf("Enter Ctrl + D to stop insertion process\n\n");
+	printf("Enter -1 to stop insertion process\n\n");
 	
 	struct BSTreeNode * root_node = NULL; 
 	
@@ -17,7 +17,11 @@ int main (void) {
 
 	TraverseBST(BSTree , 0);
 		
-	if(SearchBST(BSTree , 100)) {
+	int number;
+	printf("Enter search term: ");
+	scanf("%d" , &number);
+
+	if(SearchBST(BSTree , number)) {
 		printf("Value found !\n");
 	} else {
 		printf("Value not found !\n");
