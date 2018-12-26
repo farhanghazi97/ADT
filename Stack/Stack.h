@@ -29,12 +29,11 @@ Stack Push (Stack stack , int data) {
 		stack->current_index++;
 		stack->top_elem_index = stack->current_index;
 		stack->elems[stack->current_index] = data;
-		return stack;
+		return stack; 
 	} else {
 		printf("Stack is full!");
 	}
 	return stack;
-
 }
 
 Stack Pop (Stack stack) {
@@ -47,7 +46,7 @@ Stack Pop (Stack stack) {
 void DisplayStack (Stack stack) {
 
 	printf("\nTOP : ");
-	for(int i = stack->top_elem_index; i >= 0; i--){
+	for(int i = stack->top_elem_index; i > 0; i--){
 		printf("%d " , stack->elems[i]);
 	}
 	printf(": TAIL\n");

@@ -9,11 +9,8 @@ int main(void) {
 	printf("By default the stack size is 10\n\n");
 
 	int number;
-	scanf("%d" , &number);
-
-	Stack my_stack = InitializeStack(number);
-	DisplayStack(my_stack);	
-	
+	Stack my_stack = InitializeStack(0);
+		
 	while(scanf("%d" , &number) != EOF) {
 		my_stack = Push (my_stack , number);
 		DisplayStack(my_stack);
