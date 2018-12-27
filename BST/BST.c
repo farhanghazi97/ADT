@@ -18,14 +18,37 @@ int main (void) {
 	TraverseBST(BSTree , 0);
 		
 	int number;
-	printf("Enter search term: ");
-	scanf("%d" , &number);
+	int operation = -1;
+	
+	while (operation != 0) {
 
-	if(SearchBST(BSTree , number)) {
-		printf("Value found !\n");
-	} else {
-		printf("Value not found !\n");
-	}
+		Action();
+		printf("\nEnter op code: ");
+		scanf("%d" , &operation);	
+
+		if(operation == 1) {
+			
+			printf("\nEnter search term: ");
+			scanf("%d" , &number);
+
+			if(SearchBST(BSTree , number)) {
+				printf("Value exists within tree !\n");
+			} else {
+				printf("Value not found !\n");
+			}
+	
+		} else if (operation == 2) {
+
+			printf("Enter a value to delete from the tree: ");
+			scanf("%d" , &number);
+
+			BSTree = DeleteBST(BSTree , number);
+			printf("VALUE : %d\n" , BSTree->key);			
+
+	
+			TraverseBST (BSTree , 0);
+		}
+	}	 
 
 	FreeBST(BSTree);
 

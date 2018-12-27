@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define COUNT 3 
+#define COUNT 5 
 
 struct BSTreeNode {
 	int key;
@@ -10,12 +10,13 @@ struct BSTreeNode {
 	struct BSTreeNode * right;
 };
 
-struct BSTreeNode * create_node (int value);
-struct BSTreeNode * CreateBST(struct BSTreeNode * root);
-struct BSTreeNode * InsertBSTNode(struct BSTreeNode * root , int key);
-bool   SearchBST (struct BSTreeNode * root , int search_val);
-void   TraverseBST  (struct BSTreeNode * root , int space);
-void   FreeBST      (struct BSTreeNode * root);
+struct BSTreeNode * create_node    (int value);
+struct BSTreeNode * CreateBST	   (struct BSTreeNode * root);
+struct BSTreeNode * InsertBSTNode  (struct BSTreeNode * root , int key);
+bool   SearchBST 		   (struct BSTreeNode * root , int search_val);
+void   TraverseBST  		   (struct BSTreeNode * root , int space);
+void   FreeBST      		   (struct BSTreeNode * root);
+void   Action	    		   ();
 
 struct BSTreeNode * create_node (int value) {
 
@@ -102,5 +103,32 @@ bool SearchBST (struct BSTreeNode * root , int search_val) {
 
 struct BSTreeNode * DeleteBST (struct BSTreeNode * root , int value) {
 
+	if (root == NULL) return root;
+
+	if (value < root->key) {
+		root->left = DeleteBST (root->left , value);
+	} else if (value > root->key) {
+		root->right = DeleteBST (root->right , value);
+	} else {
+		if (root->left == NULL) {
+			struct BSTreeNode * temp = root->right;
+			free(root);
+			return temp;
+		} else if (root->right == NULL) {
+			struct BSTreeNode * temp = root->left;
+			free(root);
+			return temp;
+		}
+	}
+	
+	return root;
+
+}
+
+void Action () {
+ 	
+	printf("\n0. Exit program\n");
+	printf("1. Search for a term in BST\n");
+	printf("2. Delete a term from the BST\n");
 
 }
