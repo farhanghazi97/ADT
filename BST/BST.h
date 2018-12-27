@@ -13,6 +13,7 @@ struct BSTreeNode {
 struct BSTreeNode * create_node    (int value);
 struct BSTreeNode * CreateBST	   (struct BSTreeNode * root);
 struct BSTreeNode * InsertBSTNode  (struct BSTreeNode * root , int key);
+struct BSTreeNode * MinValNode 	   (struct BSTreeNode * root);
 bool   SearchBST 		   (struct BSTreeNode * root , int search_val);
 void   TraverseBST  		   (struct BSTreeNode * root , int space);
 void   FreeBST      		   (struct BSTreeNode * root);
@@ -101,6 +102,15 @@ bool SearchBST (struct BSTreeNode * root , int search_val) {
 	}
 }
 
+struct BSTreeNode * MinValNode (struct BSTreeNode * root) {
+
+	struct BSTreeNode * current = root;
+	while(current->left != NULL) {
+		current = current->left;
+	}
+	return current;
+}
+
 struct BSTreeNode * DeleteBST (struct BSTreeNode * root , int value) {
 
 	if (root == NULL) return root;
@@ -120,6 +130,10 @@ struct BSTreeNode * DeleteBST (struct BSTreeNode * root , int value) {
 			return temp;
 		}
 	}
+
+	//struct BSTreeNode * temp = MinValNode (root->right);
+	//root->key = temp->key;
+	//root->right = DeleteBST(root->right , temp->key);
 	
 	return root;
 
