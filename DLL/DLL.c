@@ -83,6 +83,10 @@ int main(void) {
 
 			print_interface();
 
+		} else {
+
+			printf("Invalid op code!!!\n");
+
 		}
 
 	}
