@@ -131,7 +131,9 @@ struct BSTreeNode * DeleteBST (struct BSTreeNode * root , int value) {
 		}
 	}
 
-	//struct BSTreeNode * temp = MinValNode (root->right);
+	struct BSTreeNode * temp = MinValNode (root->right);
+	printf("VALUE : %d\n" , temp->key); 
+
 	//root->key = temp->key;
 	//root->right = DeleteBST(root->right , temp->key);
 	
