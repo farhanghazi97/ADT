@@ -48,26 +48,28 @@ struct node * create_DLL_list(struct node * head , int size) {
 		head = new_node;
 		index++;
 	}
-	printf("List successfully created...\n");
+	printf("\nList successfully created...\n\n");
 	return head;
 }
 
 void print_DLL_list(struct node * head) {
 
 	struct node * curr = head;
+	printf("X <-> ");
 	while(curr != NULL) {
-		printf("%d\n" , curr->value);
+		printf("%d <-> " , curr->value);
 		curr = curr->next;
 	}
+	printf("X\n");
 }
 
 void traverse_list (struct node * head) {
 
 	char move;
 	struct node * curr = head;
-	printf("Welcome to the DLL Traverser!\n");
-	printf("Enter 'H' to bring up the help menu\n");
-	while((move  = getchar()) != EOF) {
+	printf("\nWelcome to the DLL Traverser!\n");
+	printf("Enter 'H' to bring up the help menu\n\n");
+	while((move  = getchar()) != 'E') {
 		if (move == 'C') {
 			printf ("Current : %d\n" , curr->value);
 		} else if (move == 'F') {
@@ -88,10 +90,23 @@ void traverse_list (struct node * head) {
 			printf("P = print value of  node behind\n");
 			printf("B = move one node backward\n");
 			printf("H = print help interface\n");
-			printf("Ctrl + D = exit\n");
+			printf("E = exit\n");
 			printf("------------------------\n\n");
 		} 
 	}
+
+}
+
+void print_interface () {
+
+	printf("\n-----INTERFACE HELP------\n");
+	printf("0 = Exit DLL interface\n");
+	printf("1 = Insert new node after given index\n");
+	printf("2 = Insert new node before given index\n");
+	printf("3 = Delete specified value from DLL\n");
+	printf("4 = Use List Traverser\n");
+	printf("5 = See help interface\n");
+	printf("------------------------\n\n");
 
 }
 
