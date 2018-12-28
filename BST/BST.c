@@ -47,6 +47,11 @@ int main (void) {
 
 	
 			TraverseBST (BSTree , 0);
+		} else if (operation == 3) {
+
+			int max = FindMaxBST (BSTree);
+			printf("Max : %d\n" , max);			
+
 		}
 	}	 
 

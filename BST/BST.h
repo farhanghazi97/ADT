@@ -15,9 +15,11 @@ struct BSTreeNode * CreateBST	   (struct BSTreeNode * root);
 struct BSTreeNode * InsertBSTNode  (struct BSTreeNode * root , int key);
 struct BSTreeNode * MinValNode 	   (struct BSTreeNode * root);
 bool   SearchBST 		   (struct BSTreeNode * root , int search_val);
+int    FindMaxBST		   (struct BSTreeNode * root);
 void   TraverseBST  		   (struct BSTreeNode * root , int space);
 void   FreeBST      		   (struct BSTreeNode * root);
 void   Action	    		   ();
+
 
 struct BSTreeNode * create_node (int value) {
 
@@ -146,5 +148,14 @@ void Action () {
 	printf("\n0. Exit program\n");
 	printf("1. Search for a term in BST\n");
 	printf("2. Delete a term from the BST\n");
+	printf("3. Find maximal element within BST\n");
+}
 
+int FindMaxBST (struct BSTreeNode * root) {
+
+	struct BSTreeNode * curr = root;
+	while(curr->right != NULL) {
+		curr = curr->right;
+	}
+	return(curr->key);
 }
