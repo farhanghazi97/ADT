@@ -83,7 +83,7 @@ void traverse_list (struct node * head) {
 			printf("Moving backwards....\n");
 			curr = curr->prev;
 		} else if (move == 'H') {
-			printf("-----INTERFACE HELP------\n");
+			printf("-----INTERFACE HELP-----\n");
 			printf("C = print current node value\n");
 			printf("F = move one node forward\n");
 			printf("N = print value of node in front\n");
@@ -105,7 +105,9 @@ void print_interface () {
 	printf("2 = Insert new node before given index\n");
 	printf("3 = Delete specified value from DLL\n");
 	printf("4 = Use List Traverser\n");
-	printf("5 = See help interface\n");
+	printf("5 = Compute sum of nodes\n");
+	printf("6 = Print DLL nodes\n");
+	printf("7 = See help interface\n");
 	printf("------------------------\n\n");
 
 }

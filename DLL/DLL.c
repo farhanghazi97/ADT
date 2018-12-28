@@ -26,7 +26,7 @@ int main(void) {
 	int operation = -1;
 
 	printf("\nWelcome to the DLL Editor!");
-	printf("\nEnter '5' to bring up the help interface");
+	printf("\nEnter '7' to bring up the help interface");
 
 	while(operation != 0) {
 
@@ -70,7 +70,19 @@ int main(void) {
 
 		} else if (operation == 5) {
 
+			printf("\n");
+			print_DLL_list (list);
+			int sum = sum_DLL(list);
+			printf("Sum : %d\n" , sum);
+		
+		} else if (operation == 6) {
+
+			print_DLL_list (list);
+
+		} else if (operation == 7) {
+
 			print_interface();
+
 		}
 
 	}
