@@ -75,7 +75,7 @@ void PrintQueue (Queue head) {
 
 	printf("\nTail : ");
 	while(curr != NULL) {
-		printf("<-> %d " , curr->value);
+		printf("%d <-> " , curr->value);
 		curr = curr->next;
 	}
 	printf(": Front\n\n");
