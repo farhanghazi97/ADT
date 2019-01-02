@@ -14,11 +14,12 @@ struct BSTreeNode * create_node    (int value);
 struct BSTreeNode * CreateBST	   (struct BSTreeNode * root);
 struct BSTreeNode * InsertBSTNode  (struct BSTreeNode * root , int key);
 struct BSTreeNode * MinValNode 	   (struct BSTreeNode * root);
-bool   SearchBST 		   (struct BSTreeNode * root , int search_val);
-int    FindMaxBST		   (struct BSTreeNode * root);
-void   TraverseBST  		   (struct BSTreeNode * root , int space);
-void   FreeBST      		   (struct BSTreeNode * root);
-void   Action	    		   ();
+struct BSTreeNode * DeleteBST      (struct BSTreeNode * root , int value); 
+bool   SearchBST 		           (struct BSTreeNode * root , int search_val);
+int    FindMaxBST		           (struct BSTreeNode * root);
+void   TraverseBST  		       (struct BSTreeNode * root , int space);
+void   FreeBST      		       (struct BSTreeNode * root);
+void   Action	    		       ();
 
 
 struct BSTreeNode * create_node (int value) {
@@ -133,10 +134,10 @@ struct BSTreeNode * DeleteBST (struct BSTreeNode * root , int value) {
 		}
 	}
 
-	struct BSTreeNode * temp = MinValNode (root->right);
-	printf("VALUE : %d\n" , temp->key); 
+	//struct BSTreeNode * temp = MinValNode (root->right);
+	//printf("VALUE : %d\n" , temp->key); 
 
-	//root->key = temp->key;
+	//int val = temp->key;
 	//root->right = DeleteBST(root->right , temp->key);
 	
 	return root;
