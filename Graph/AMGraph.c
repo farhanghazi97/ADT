@@ -1,16 +1,18 @@
 #include  <stdio.h>
-#include "AMGraph.h"
+#include  <stdbool.h>
+#include  "AMGraph.h"
+#include  "Queue.h"
 
 int main(void) {
 
 	int size;
-	printf("Enter size of graph: ");
+	printf("\nEnter size of graph: ");
 	scanf("%d" , &size);
 	Graph my_graph = CreateGraph(size);
 	DisplayGraph(my_graph);
 
 	char ch;
-	printf("Press H to bring up the graph interface\n");
+	printf("\nPress H to bring up the graph interface\n");
 	while((ch = getchar()) != 'E') {
 		if (ch == 'I') {
 			InsertEdge(my_graph);
@@ -31,3 +33,4 @@ int main(void) {
 	}
 	FreeGraph(my_graph);	
 }
+

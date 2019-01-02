@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef int Vertex;
 
@@ -16,7 +17,13 @@ Graph CreateGraph  (int size);
  void InsertEdge   (Graph graph);
  void RemoveEdge   (Graph graph);
  void FreeGraph    (Graph graph);
- //void BFSGraph     (Graph graph , )
+ bool Adjacent     (Graph g , Vertex v , Vertex w);
+
+ // GRAPH TRAVERSAL ALGOS
+
+int visited[10];
+
+bool BFSGraph     (Graph graph , int src , int dest);
 
 Graph CreateGraph (int size) {
 	Graph new_graph = malloc(sizeof(Graph));
@@ -31,8 +38,8 @@ Graph CreateGraph (int size) {
 }
 
 void DisplayGraph (Graph graph) {
-	printf("Total number of vertices : %d\n" , graph->nV);
-	printf("Total number of edges : %d\n" , graph->nE);
+	printf("\nTotal number of vertices : %d\n" , graph->nV);
+	printf("Total number of edges : %d\n\n" , graph->nE);
 	for(int i = 0; i < graph->nV; i++){
 		for(int j = 0; j < graph->nV; j++){
 			printf("%d " , graph->edges[i][j]);
@@ -88,3 +95,14 @@ void FreeGraph (Graph graph) {
 	free(graph->edges);
 	free(graph);
 }
+
+bool Adjacent(Graph g , Vertex v , Vertex w) {
+
+	if(g->edges[v][w] == 1) {
+		return true;
+	} else {
+		return false;
+	}
+
+}
+
