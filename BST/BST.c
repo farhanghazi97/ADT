@@ -45,12 +45,17 @@ int main (void) {
 			BSTree = DeleteBST(BSTree , number);
 			printf("VALUE : %d\n" , BSTree->key);			
 
-	
 			TraverseBST (BSTree , 0);
+		
 		} else if (operation == 3) {
 
-			int max = FindMaxBST (BSTree);
-			printf("Max : %d\n" , max);			
+			struct BSTreeNode * max = FindMaxBST (BSTree);
+			printf("Max : %d\n" , max->key);			
+
+		} else if (operation == 4) {
+
+			struct BSTreeNode * min = FindMinBST (BSTree);
+			printf("Min : %d\n" , min->key);	
 
 		}
 	}	 

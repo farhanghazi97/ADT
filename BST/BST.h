@@ -13,10 +13,10 @@ struct BSTreeNode {
 struct BSTreeNode * create_node    (int value);
 struct BSTreeNode * CreateBST	   (struct BSTreeNode * root);
 struct BSTreeNode * InsertBSTNode  (struct BSTreeNode * root , int key);
-struct BSTreeNode * MinValNode 	   (struct BSTreeNode * root);
+struct BSTreeNode * FindMaxBST	   (struct BSTreeNode * root);
+struct BSTreeNode * FindMinBST     (struct BSTreeNode * root);
 struct BSTreeNode * DeleteBST      (struct BSTreeNode * root , int value); 
 bool   SearchBST 		           (struct BSTreeNode * root , int search_val);
-int    FindMaxBST		           (struct BSTreeNode * root);
 void   TraverseBST  		       (struct BSTreeNode * root , int space);
 void   FreeBST      		       (struct BSTreeNode * root);
 void   Action	    		       ();
@@ -91,10 +91,6 @@ void FreeBST(struct BSTreeNode * root) {
 bool SearchBST (struct BSTreeNode * root , int search_val) {
 
 	if(root == NULL) {
-
-		// ONCE A DEAD END IS HIT , ROOT POINTS TO NOTHING
-		// (i.e NULL)
-
 		return false;
 	} else if (search_val < root->key) {
 		return SearchBST(root->left , search_val);
@@ -105,7 +101,16 @@ bool SearchBST (struct BSTreeNode * root , int search_val) {
 	}
 }
 
-struct BSTreeNode * MinValNode (struct BSTreeNode * root) {
+struct BSTreeNode * FindMaxBST (struct BSTreeNode * root) {
+
+	struct BSTreeNode * curr = root;
+	while(curr->right != NULL) {
+		curr = curr->right;
+	}
+	return curr;
+}
+
+struct BSTreeNode * FindMinBST (struct BSTreeNode * root) {
 
 	struct BSTreeNode * current = root;
 	while(current->left != NULL) {
@@ -134,12 +139,6 @@ struct BSTreeNode * DeleteBST (struct BSTreeNode * root , int value) {
 		}
 	}
 
-	//struct BSTreeNode * temp = MinValNode (root->right);
-	//printf("VALUE : %d\n" , temp->key); 
-
-	//int val = temp->key;
-	//root->right = DeleteBST(root->right , temp->key);
-	
 	return root;
 
 }
@@ -150,13 +149,6 @@ void Action () {
 	printf("1. Search for a term in BST\n");
 	printf("2. Delete a term from the BST\n");
 	printf("3. Find maximal element within BST\n");
+	printf("4. Find mininal element within BST\n");
 }
 
-int FindMaxBST (struct BSTreeNode * root) {
-
-	struct BSTreeNode * curr = root;
-	while(curr->right != NULL) {
-		curr = curr->right;
-	}
-	return(curr->key);
-}
