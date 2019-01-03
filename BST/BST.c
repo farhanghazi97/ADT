@@ -42,8 +42,7 @@ int main (void) {
 			printf("Enter a value to delete from the tree: ");
 			scanf("%d" , &number);
 
-			BSTree = DeleteBST(BSTree , number);
-			printf("VALUE : %d\n" , BSTree->key);			
+			BSTree = DeleteBSTNode(BSTree , number);			
 
 			TraverseBST (BSTree , 0);
 		

@@ -5,24 +5,24 @@
 #define COUNT 5 
 
 struct BSTreeNode {
-	int key;
+	int    key;
 	struct BSTreeNode * left;
 	struct BSTreeNode * right;
 };
 
-struct BSTreeNode * create_node    (int value);
+struct BSTreeNode * CreateNode     (int value);
 struct BSTreeNode * CreateBST	   (struct BSTreeNode * root);
 struct BSTreeNode * InsertBSTNode  (struct BSTreeNode * root , int key);
 struct BSTreeNode * FindMaxBST	   (struct BSTreeNode * root);
 struct BSTreeNode * FindMinBST     (struct BSTreeNode * root);
-struct BSTreeNode * DeleteBST      (struct BSTreeNode * root , int value); 
-bool   SearchBST 		           (struct BSTreeNode * root , int search_val);
-void   TraverseBST  		       (struct BSTreeNode * root , int space);
-void   FreeBST      		       (struct BSTreeNode * root);
-void   Action	    		       ();
+struct BSTreeNode * DeleteBSTNode  (struct BSTreeNode * root , int value); 
+bool   				SearchBST 	   (struct BSTreeNode * root , int search_val);
+void   				TraverseBST    (struct BSTreeNode * root , int space);
+void   				FreeBST        (struct BSTreeNode * root);
+void   				Action	       ();
 
 
-struct BSTreeNode * create_node (int value) {
+struct BSTreeNode * CreateNode (int value) {
 
 	struct BSTreeNode * new_node = malloc(sizeof(struct BSTreeNode *));
 	new_node->key = value;
@@ -34,7 +34,7 @@ struct BSTreeNode * create_node (int value) {
 struct BSTreeNode * InsertBSTNode(struct BSTreeNode * root , int key) {
 
 	if(root == NULL){
-		struct BSTreeNode * new_node = create_node(key);
+		struct BSTreeNode * new_node = CreateNode(key);
 		return new_node;
 	} else if(key < root->key) {
 		root->left = InsertBSTNode(root->left , key);
@@ -119,14 +119,15 @@ struct BSTreeNode * FindMinBST (struct BSTreeNode * root) {
 	return current;
 }
 
-struct BSTreeNode * DeleteBST (struct BSTreeNode * root , int value) {
+struct BSTreeNode * DeleteBSTNode (struct BSTreeNode * root , int value) {
 
 	if (root == NULL) return root;
 
+	//DELETE NODE WITH ONLY ONE CHILD
 	if (value < root->key) {
-		root->left = DeleteBST (root->left , value);
+		root->left = DeleteBSTNode (root->left , value);
 	} else if (value > root->key) {
-		root->right = DeleteBST (root->right , value);
+		root->right = DeleteBSTNode (root->right , value);
 	} else {
 		if (root->left == NULL) {
 			struct BSTreeNode * temp = root->right;
@@ -137,8 +138,13 @@ struct BSTreeNode * DeleteBST (struct BSTreeNode * root , int value) {
 			free(root);
 			return temp;
 		}
+	
+		//DELETE NODE WITH TWO CHILDREN
+		struct BSTreeNode * temp = FindMinBST(root->right);
+		root->key = temp->key;
+		root->right - DeleteBSTNode(root->right , temp->key);
 	}
-
+	
 	return root;
 
 }
