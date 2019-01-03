@@ -14,7 +14,7 @@ typedef struct StackRep {
 } StackRep;
 
 Stack InitializeStack (int data) ;
-Stack Push 			  (Stack stack , int data);
-Stack Pop 			  (Stack stack);
-void  DisplayStack 	  (Stack stack);
-void  FreeStack 	  (Stack stack);
+Stack Push 	      (Stack stack , int data);
+Stack Pop 	      (Stack stack);
+void  DisplayStack    (Stack stack);
+void  FreeStack       (Stack stack);
