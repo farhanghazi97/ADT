@@ -9,4 +9,4 @@ LOG:
 
 	03/01/19
 	
-	-> Added root deletion (but function still shows discrepancies under 	          edge cases
+	-> Added root deletion (but function still shows discrepancies under edge cases
