@@ -1,6 +1,8 @@
 #include  <stdio.h>
 #include  <stdbool.h>
+
 #include  "AMGraph.h"
+#include  "Queue.h"
 
 int main(void) {
 
@@ -115,5 +117,12 @@ bool Adjacent(Graph g , Vertex v , Vertex w) {
 
 }
 
+void BFSGraph (Graph graph) {
+
+	Queue queue = CreateNode(10);
+    queue = CreateQueue(queue  , 10);
+
+
+}
 
 
