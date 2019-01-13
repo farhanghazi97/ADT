@@ -7,13 +7,13 @@
 int main(void) {
 
 	char * test = "Line 10\nLine 11\nLine 12\nLine 13\nLine 14\nLine 15\n";
-	TB buffer = createTBList(test);
-	printBuffer(buffer);
+	TB buffer = CreateTBList(test);
+	PrintBuffer(buffer);
 	BufferTraverser(buffer);
-	freeBuffer(buffer);
+	FreeBuffer(buffer);
 }
 
-TB newTBNode (char * text) {
+TB NewTBNode (char * text) {
 	
 	TB TBNode = malloc(sizeof(TB));
 	
@@ -27,14 +27,14 @@ TB newTBNode (char * text) {
 	return TBNode;
 }
 
-TB createTBList (char * text) {
+TB CreateTBList (char * text) {
 	
 	char * my_string = strdup(text);
 	char * ss = strsep(&my_string , "\n");
-	TB new_node = newTBNode(ss);
+	TB new_node = NewTBNode(ss);
 
 	while((ss = strsep(&my_string , "\n")) != NULL) {
-		TB next_node = newTBNode(ss);
+		TB next_node = NewTBNode(ss);
 		next_node->next = new_node;
 		new_node->prev = next_node;
 		new_node = next_node;
@@ -44,7 +44,7 @@ TB createTBList (char * text) {
 	return new_node;
 }
 
-void printBuffer(TB head) {
+void PrintBuffer(TB head) {
 	
 	TB curr = head;
 	int i = 1;
@@ -95,7 +95,7 @@ void HelpInterface() {
 	printf("----------------------------\n");
 }
 
-void freeBuffer(TB head) {
+void FreeBuffer(TB head) {
 	TB curr = head;
 	while(curr != NULL) {
 		TB temp = curr;

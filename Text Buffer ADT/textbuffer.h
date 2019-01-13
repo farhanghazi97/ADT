@@ -6,11 +6,12 @@ typedef struct textbuffer {
 	TB prev;
 } textbuffer;
 
-void printBuffer     (TB head);
+void PrintBuffer     (TB head);
 void BufferTraverser (TB head);
 void HelpInterface   ();
-TB   newTBNode       (char * text);
-TB   createTBList    (char * text);
-void freeBuffer		 (TB head);
+void FreeBuffer		 (TB head);
+TB   NewTBNode       (char * text);
+TB   CreateTBList    (char * text);
+
 
 
