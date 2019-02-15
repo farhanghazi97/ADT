@@ -12,6 +12,7 @@ void HelpInterface   ();
 void FreeBuffer		 (TB head);
 TB   NewTBNode       (char * text);
 TB   CreateTBList    (char * text);
+TB   AddLine		 (TB head , int lineNo);
 
 
 

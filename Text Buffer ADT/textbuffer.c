@@ -9,7 +9,13 @@ int main(void) {
 	char * test = "Line 10\nLine 11\nLine 12\nLine 13\nLine 14\nLine 15\n";
 	TB buffer = CreateTBList(test);
 	PrintBuffer(buffer);
-	BufferTraverser(buffer);
+
+	int lineNo;
+	printf("Enter line number to insert after: ");
+	scanf("%d" , &lineNo);
+
+	buffer = AddLine(buffer , lineNo);
+	PrintBuffer(buffer);
 	FreeBuffer(buffer);
 }
 
@@ -45,11 +51,11 @@ TB CreateTBList (char * text) {
 }
 
 void PrintBuffer(TB head) {
-	
+
 	TB curr = head;
 	int i = 1;
 
-	printf("\n");
+	printf("\n\n");
 	while(curr != NULL) {
 		printf("%d. %s\n" , i , curr->text);
 		curr = curr->next;
@@ -66,6 +72,7 @@ void BufferTraverser (TB head) {
 	HelpInterface();
 	
 	printf("\nAction: ");
+	getchar();
 	while(scanf("%c" , &action) != EOF) {
 		if(action == 'P') {
 			printf("Printing current line...\n");
@@ -89,7 +96,7 @@ void HelpInterface() {
 	printf("\n-----HELP INTERFACE-----\n");
 	printf("P = Print current line\n");
 	printf("F = Move one line forward\n");
-	printf("B = MOve one line backward\n");
+	printf("B = Move one line backward\n");
 	printf("H = Help Interface\n");
 	printf("E = Exit program\n");
 	printf("----------------------------\n");
@@ -103,4 +110,32 @@ void FreeBuffer(TB head) {
 		free(temp);
 		curr = curr->next;
 	}
+}
+
+TB AddLine (TB head , int lineNo) {
+	
+	TB curr = head;
+	int count = 1;
+	
+	while(count < lineNo) {
+		curr = curr->next;
+		count++;
+	}
+	
+	printf("\nEnter content of line: ");
+	printf("\nEnter Ctrl+D TWICE to signal end of input\n\nINPUT: ");
+	
+	char line[1024];
+	while(fgets(line , MAX_SIZE , stdin) != NULL) {}
+	
+	int length = strlen(line); 
+	TB new_node = NewTBNode(line);
+	
+	curr->next->prev = new_node;
+	new_node->next = curr->next;
+	new_node->prev = curr;
+	curr->next = new_node;
+
+	return head;
+
 }
