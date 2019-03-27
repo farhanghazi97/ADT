@@ -158,6 +158,7 @@ void DLListNodeDelete(DLList list , int index) {
         DLListNode temp = list->last;
         list->last = list->last->prev;
         list->last->next = NULL;
+        free(temp->value);
         free(temp);
         return;
     } else if(index == 1) {
@@ -165,6 +166,7 @@ void DLListNodeDelete(DLList list , int index) {
         DLListNode temp = curr;
         list->first = curr->next;
         list->first->prev = NULL;
+        free(temp->value);
         free(temp);
     } else {
         //DELETE INBETWEEN HEAD AND TAIL
@@ -175,6 +177,7 @@ void DLListNodeDelete(DLList list , int index) {
         DLListNode temp = curr;
         curr->prev->next = curr->next;
         curr->next->prev = curr->prev;
+        free(temp->value);
         free(temp);
     }
     list->size--;
