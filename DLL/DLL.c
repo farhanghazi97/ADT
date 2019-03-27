@@ -1,339 +1,192 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
+
 #include "DLL.h"
 
-int main(void) {
+typedef struct DLListRep {
+    int size;
+    DLListNode first;
+    DLListNode curr;
+    DLListNode last;
+} DLListRep;
 
-	printf("\n <<<<<< DLL ADT INTERFACE >>>>> \n");
+typedef struct DLLNode {
+    char * value;
+    DLListNode prev;
+    DLListNode next;
+} DLLNode;
 
-	int value;
+DLList CreateDLList (void) {
 
-	printf("\nEnter value of starting node: ");
-	scanf("%d" , &value);
-	
-	struct node * head = create_DLL_node(value);
+    DLList list = NewDLList();
 
-	int size;
-	printf("Enter size of DLL list: ");
-	scanf("%d" , &size);
-
-	printf("Enter remaining nodes into list:\n\n");
-	struct node * list = create_DLL_list(head , size);
-	print_DLL_list(list);
-
-	int index;
-	int node;
-	
-	int operation = -1;
-
-	printf("\nWelcome to the DLL Editor!");
-	printf("\nEnter '7' to bring up the help interface");
-
-	while(operation != 0) {
-
-
-		printf("\nEnter operation: ");
-		scanf("%d" , &operation);
-
-		if (operation == 1) {
-		
-			printf("Enter index to insert after: ");
-			scanf("%d" , &index);
-		
-			printf("Enter value of node: ");
-			scanf("%d" , &node);
-
-			list = DLL_insert_after (list , index , node);
-			print_DLL_list (list);
-		
-		} else if (operation == 2) {
-			
-			printf("Enter index to insert before: ");
-			scanf("%d" , &index);
-			
-			printf("Enter value of node: ");
-			scanf("%d" , &node);
-
-			list = DLL_insert_before (list , index, node);
-			print_DLL_list (list);
-		
-		} else if (operation == 3) {
-		
-			printf("Enter a value to delete from the list: ");
-			scanf("%d" , &node);
-
-			list = delete_DLL_node (list , node);
-			print_DLL_list (list);
-
-		} else if (operation == 4) {
-
-			traverse_list (list);
-
-		} else if (operation == 5) {
-
-			printf("\n");
-			print_DLL_list (list);
-			int sum = sum_DLL(list);
-			printf("Sum : %d\n" , sum);
-		
-		} else if (operation == 6) {
-
-			print_DLL_list (list);
-
-		} else if (operation == 7) {
-
-			print_interface();
-
-		} else {
-
-			printf("Invalid op code!!!\n");
-
-		}
-
-	}
-
-	free_DLL_list(list);
-
+    char value[BUFSIZ];
+    while(fgets(value , BUFSIZ , stdin) != NULL) {
+        DLListNode new_node = NewDLListNode(value);
+        if(list->last == NULL) {
+            list->first = list->last = new_node;
+        } else {
+            list->last->next = new_node;
+            new_node->prev = list->last;
+            list->last = new_node;
+        }
+        list->size++;
+    }
+    list->curr = list->first;
+    return list;
 }
 
-struct node * create_DLL_node (int value){
+void InsertNodeAfter (DLList list , int index, char * value) {
 
-	struct node * new_node = malloc(sizeof(struct node *));
-	new_node->prev = NULL;
-	new_node->next = NULL;
-	new_node->value = value;
-	return new_node;
+    DLListNode new_node = NewDLListNode(value);
+
+    if(index > list->size) {
+        printf("Insert index exceeds list size\n");
+        return;
+    } else if(index < 1) {
+        printf("Invalid insert index\n");
+        return;
+    }
+
+    DLListNode curr = list->first;
+    int curr_index = 1;
+    if(index == list->size) {
+        //ADD TO END OF LIST
+        list->last->next = new_node;
+        new_node->prev = list->last;
+        list->last = new_node;
+    } else {
+        while(curr_index < index) {
+            curr = curr->next;
+            curr_index++;
+        }
+        //ADD BETWEEN HEAD AND TAIL
+        new_node->prev = curr;
+        new_node->next = curr->next;
+        curr->next->prev = new_node;
+        curr->next = new_node;
+    }
+    list->size++;
 }
 
-struct node * create_DLL_list(struct node * head , int size) {
 
-	int index = 0;
-	int number = 0;
-	while(index < size) {
-		scanf("%d" , &number);
-		struct node * new_node = create_DLL_node(number);
-		new_node->next = head;
-		head->prev = new_node;
-		head = new_node;
-		index++;
-	}
-	printf("\nList successfully created...\n\n");
-	return head;
+void InsertNodeBefore (DLList list , int index, char * value) {
+
+    DLListNode new_node = NewDLListNode(value);
+
+    if(index > list->size) {
+        printf("Insert index exceeds list size\n");
+        return;
+    } else if(index < 1) {
+        printf("Invalid insert index\n");
+        return;
+    }
+
+    DLListNode curr = list->first;
+    int curr_index = 1;
+
+    if(index == 1) {
+        //ADD BEFORE CURRENT HEAD (BECOMES NEW HEAD)
+        new_node->prev = NULL;
+        list->first->prev = new_node;
+        new_node->next = list->first;
+        list->first = new_node;
+    } else {
+        while(curr_index < (index - 1)) {
+            curr = curr->next;
+            curr_index++;
+        }
+        //ADD BETWEEN HEAD AND TAIL
+        new_node->prev = curr;
+        new_node->next = curr->next;
+        curr->next->prev = new_node;
+        curr->next = new_node;
+    }
+    list->size++;
 }
 
-void print_DLL_list(struct node * head) {
 
-	struct node * curr = head;
-	printf("X <-> ");
-	while(curr != NULL) {
-		printf("%d <-> " , curr->value);
-		curr = curr->next;
-	}
-	printf("X\n");
+DLList NewDLList (void) {
+    DLList new_list = malloc(sizeof(DLListRep));
+    if(new_list == NULL) printf("Could not allocate memory for list\n");
+    new_list->size = 0;
+    new_list->first = NULL;
+    new_list->last = NULL;
+    return new_list;
 }
 
-void traverse_list (struct node * head) {
-
-	char move;
-	struct node * curr = head;
-	printf("\nWelcome to the DLL Traverser!\n");
-	printf("Enter 'H' to bring up the help menu\n\n");
-	while((move  = getchar()) != 'E') {
-		if (move == 'C') {
-			printf ("Current : %d\n" , curr->value);
-		} else if (move == 'F') {
-			printf ("Moving foward....\n");
-			curr = curr->next;
-		} else if (move == 'N') {
-			printf ("In front of current node : %d\n" , curr->next->value);
-		} else if (move == 'P') {
-			printf ("Behind current node : %d\n" , curr->prev->value);
-		} else if (move == 'B') {
-			printf("Moving backwards....\n");
-			curr = curr->prev;
-		} else if (move == 'H') {
-			printf("-----INTERFACE HELP-----\n");
-			printf("C = print current node value\n");
-			printf("F = move one node forward\n");
-			printf("N = print value of node in front\n");
-			printf("P = print value of  node behind\n");
-			printf("B = move one node backward\n");
-			printf("H = print help interface\n");
-			printf("E = exit\n");
-			printf("------------------------\n\n");
-		} 
-	}
-
+DLListNode NewDLListNode (char * value) {
+    DLListNode new_node = malloc(sizeof(DLLNode));
+    if(new_node == NULL) printf("Could not allocate memory for node\n");
+    new_node->value = malloc(strlen(value) * sizeof(char));
+    strncpy(new_node->value , value , strlen(value + 1));
+    new_node->prev = NULL;
+    new_node->next = NULL;
+    return new_node;
 }
 
-void print_interface () {
+void PrintDLList(DLList list) {
 
-	printf("\n-----INTERFACE HELP------\n");
-	printf("0 = Exit DLL interface\n");
-	printf("1 = Insert new node after given index\n");
-	printf("2 = Insert new node before given index\n");
-	printf("3 = Delete specified value from DLL\n");
-	printf("4 = Use List Traverser\n");
-	printf("5 = Compute sum of nodes\n");
-	printf("6 = Print DLL nodes\n");
-	printf("7 = See help interface\n");
-	printf("------------------------\n\n");
+    printf("First: %s\n" , list->first->value);
+    printf("Last:  %s\n" , list->last->value);
+    printf("Nodes: %d\n" , list->size);
 
+    DLListNode curr = list->first;
+    while(curr != NULL) {
+        printf("%s <-> " , curr->value);
+        curr = curr->next;
+    }
+    printf("X\n");
+
+    /*curr = list->last;
+    while(curr != NULL) {
+        printf("%s <-> " , curr->value);
+        curr = curr->prev;
+    }
+    printf("X\n");*/
 }
 
-void free_DLL_list (struct node * head) {
+void DLListNodeDelete(DLList list , int index) {
 
-	struct node * curr = head;
-	while(curr != NULL) {
-		free(curr);
-		curr = curr->next;
-	}
+    DLListNode curr = list->first;
+    int curr_index = 1;
 
+    if(index == list->size) {
+        // DELETE TAIL OF LIST
+        DLListNode temp = list->last;
+        list->last = list->last->prev;
+        list->last->next = NULL;
+        free(temp);
+        return;
+    } else if(index == 1) {
+        // DELETE HEAD OF LIST
+        DLListNode temp = curr;
+        list->first = curr->next;
+        list->first->prev = NULL;
+        free(temp);
+    } else {
+        //DELETE INBETWEEN HEAD AND TAIL
+        while(curr_index < index) {
+            curr = curr->next;
+            curr_index++;
+        }
+        DLListNode temp = curr;
+        curr->prev->next = curr->next;
+        curr->next->prev = curr->prev;
+        free(temp);
+    }
+    list->size--;
 }
 
-struct node * DLL_insert_after (struct node * head , int index , int value) {
-
-	struct node * new_node = create_DLL_node(value);
-	struct node * curr = head;
-	int curr_index = 1;
-
-	int elems = count_DLL_nodes(head);
-	
-	// HANDLES INVALID INSERT INDEX
-	if (index > elems) {
-		printf("Insert index exceeds list size\n");
-		printf("Operation cancelled\n");
-		return head;
-	}
-
-	// INSERT AT TAIL
-	if (elems == index) {
-		while(curr_index < index) {
-			curr = curr->next;
-			curr_index++;
-		}
-		//AT THIS POINT , CURR IS AT LAST NODE IN LIST
-		curr->next = new_node;
-		new_node->prev = curr;
-		return head;
-	}
-
-	// INSERT INBETWEEN HEAD AND TAIL
-	while(curr_index < index) {
-		curr = curr->next;
-		curr_index++;
-	}
-
-	curr->next->prev = new_node;
-	new_node->next = curr->next;
-	curr->next = new_node;
-	new_node->prev = curr;
-	
-	return head;
+void FreeDLList (DLList list) {
+    DLListNode curr = list->first;
+    while(curr != NULL) {
+        DLListNode temp = curr;
+        free(temp->value);
+        free(temp);
+        curr = curr->next;
+    }
+    free(list);
 }
-
-int count_DLL_nodes (struct node * head) {
-
-	struct node * curr = head;
-	int count = 0;
-	while(curr != NULL) {
-		count++;
-		curr = curr->next;
-	}
-	return count;
-}
-
-struct node * DLL_insert_before (struct node * head , int index , int value) {
-
-	int elems = count_DLL_nodes(head);
-	if (index > elems) {
-		printf("Insert index exceeds list size\n");
-		printf("Operation cancelled\n");
-		return head;
-	}
-
-	struct node * new_node = create_DLL_node(value);
-	struct node * curr = head;
-
-	// INSERT AT HEAD
-	if (index == 0 || index == 1) {
-		curr->prev = new_node;
-		new_node->next = curr;
-		head = new_node;	
-	}
-
-	int curr_index = 1;
-	while(curr_index < index) {
-		curr = curr->next;
-		curr_index++;
-	}
-
-	curr->prev->next = new_node;
-	new_node->next = curr;
-	curr->prev = new_node;
-	new_node->prev = curr->prev;
-	return head;
-
-}
-
-int sum_DLL	(struct node * head) {
-
-	int running_sum = 0;
-	struct node * curr = head;
-
-	while(curr != NULL) {
-		running_sum += curr->value;
-		curr = curr->next;
-	}
-	return running_sum;
-}
-
-struct node * delete_DLL_node (struct node * head , int value) {
-
-	//ASSUME NODE DOES NOT EXIST
-	int found = 0;
-	struct node * curr = head;
-	while(curr != NULL) {
-		if(curr->value == value) {
-			found = 1;
-		}
-		curr = curr->next;
-	}
-
-	// HANDLES CASE WHERE VALUE DOES NOT EXIST WITHIN LIST
-	if(found == 0) {
-		printf("The value does not exist within the DLL\n");
-		printf("Operation cancelled\n");
-		return head;
-	}
-
-	// HANDLES CASE WHERE VALUE TO BE DELETED IS HEAD
-	struct node * curr_head = head;
-	if(curr_head->value == value) {
-		//printf("Delete from head\n");
-		head = curr_head->next;
-		head->prev = NULL;
-		free(curr_head);
-		return head;
-	}
-
-	// HANDLES NODES TO BE DELETED BETWEEN HEAD AND TAIL
-	struct node * traverse = head;
-	while(traverse->value != value) {
-		traverse = traverse->next;
-	}
-	
-	// IF BLOCK CHECKS IF NODE TO BE DELETED FROM LIST
-	// IS THE LAST NODE
-	if(traverse->next == NULL) {
-		//printf("CASE: Delete from tail\n");
-		traverse->prev->next = NULL;
-		free(traverse);
-		return head;
-	} else {
-		traverse->prev->next = traverse->next;
-		traverse->next->prev = traverse->prev;
-		free(traverse);
-		return head;
-	}
-}
-

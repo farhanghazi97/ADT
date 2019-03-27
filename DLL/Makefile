@@ -1,8 +1,8 @@
 CC=gcc
-CLAGS=-Werror -Wall
 
+DLL: DLL.o testDLL.o
+	$(CC) -o DLL DLL.o testDLL.o
 
-DLL : DLL.o
-	$(CC) -o DLL DLL.o
+DLL.o: DLL.c DLL.h
 
-DLL.o : DLL.c DLL.h
+testDLL.o: testDLL.c DLL.h
