@@ -1,202 +1,149 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <stdbool.h>
+
 #include "BST.h"
 
-int main (void) {
+#define COUNT 5
 
-	printf("\nEnter values to create BST:\n");
-	printf("Enter -1 to stop insertion process\n\n");
-	
-	struct BSTreeNode * root_node = NULL; 
-	
-	struct BSTreeNode * BSTree = CreateBST(root_node);
+typedef struct BSTreeNode {
+	int value;
+	BSTree left;
+	BSTree right;
+} BSTreeNode;
 
-	printf("\nCreating BST...\n");
-	sleep(2);
+BSTree BSTreeNodeInsert (BSTree root , int value) {
 
-	TraverseBST(BSTree , 0);
-		
-	int number;
-	int operation = -1;
-	
-	while (operation != 0) {
-
-		Action();
-		printf("\nEnter op code: ");
-		scanf("%d" , &operation);	
-
-		if(operation == 1) {
-			
-			printf("\nEnter search term: ");
-			scanf("%d" , &number);
-
-			if(SearchBST(BSTree , number)) {
-				printf("Value exists within tree !\n");
-			} else {
-				printf("Value not found !\n");
-			}
-	
-		} else if (operation == 2) {
-
-			printf("Enter a value to delete from the tree: ");
-			scanf("%d" , &number);
-
-			BSTree = DeleteBSTNode(BSTree , number);			
-
-			TraverseBST (BSTree , 0);
-		
-		} else if (operation == 3) {
-
-			struct BSTreeNode * max = FindMaxBST (BSTree);
-			printf("Max : %d\n" , max->key);			
-
-		} else if (operation == 4) {
-
-			struct BSTreeNode * min = FindMinBST (BSTree);
-			printf("Min : %d\n" , min->key);	
-
-		}
-	}	 
-
-	FreeBST(BSTree);
-
+	if(root == NULL) {
+		return MakeNewNode(value);
+	} else if(root->value < value) {
+		root->left = BSTreeNodeInsert (root->left , value);
+	} else if(root->value > value) {
+		root->right = BSTreeNodeInsert (root->right , value);
+	}
+	return root;
 }
 
+BSTree MakeNewNode (int value) {
 
-struct BSTreeNode * CreateNode (int value) {
-
-	struct BSTreeNode * new_node = malloc(sizeof(struct BSTreeNode *));
-	new_node->key = value;
+	BSTree new_node = malloc(sizeof(BSTreeNode));
+	new_node->value = value;
 	new_node->left = NULL;
 	new_node->right = NULL;
 	return new_node;
+
 }
 
-struct BSTreeNode * InsertBSTNode(struct BSTreeNode * root , int key) {
+int CountTotalNodes (BSTree root) {
 
-	if(root == NULL){
-		struct BSTreeNode * new_node = CreateNode(key);
-		return new_node;
-	} else if(key < root->key) {
-		root->left = InsertBSTNode(root->left , key);
+	if(root == NULL) {
+		return 0;
 	} else {
-		root->right =  InsertBSTNode(root->right , key);
+		return (1 + CountTotalNodes(root->left) + CountTotalNodes(root->right));
 	}
-	return root;
 }
 
-	
-struct BSTreeNode * CreateBST(struct BSTreeNode * root) {
+int CountLeaves (BSTree root) {
 
-	int input;
-	while(input != EOF) {
-		scanf("%d" , &input);
-		root = InsertBSTNode(root , input);
+	if(root == NULL) {
+		return 0;
+	} else if(root->right == NULL && root->left == NULL) {
+		return 1;
+	} else {
+		return CountLeaves(root->left) + CountLeaves(root->right);
 	}
 
-	return root;
 }
 
-void TraverseBST (struct BSTreeNode * root , int space) {
+int CountInternalNodes (BSTree root) {
+	return CountTotalNodes(root) - CountLeaves(root);
+}
 
-	struct BSTreeNode * traverser = root;
+int TreeHeight (BSTree root) {
 
+	if(root == NULL) {
+		return 0;
+	} else {
+		int LHeight = TreeHeight(root->left);
+		int RHeight = TreeHeight(root->right);
+
+		if(LHeight > RHeight) {
+			return (LHeight + 1);
+		} else {
+			return (RHeight + 1);
+		}
+	}
+
+}
+
+void TraverseBST (BSTree root , int space) {
+
+	BSTree traverser = root;
 	if(traverser == NULL) {
 		return;
 	}
 
 	space += COUNT;
-
 	TraverseBST(traverser->left , space);
-	
+
 	printf("\n");
-	for(int i = COUNT; i < space; i++){
+	for(int i = COUNT; i < space; i++) {
 		printf(" ");
 	}
-	printf("%d\n" , root->key);
-	
-	TraverseBST(traverser->right , space);
-	
+	printf("%d\n" , root->value);
 
+	TraverseBST(traverser->right , space);
 }
 
-void FreeBST(struct BSTreeNode * root) {
-
-	if(root != NULL){
-		FreeBST(root->right);
-		FreeBST(root->left);
+void FreeBSTree (BSTree root) {
+	if(root != NULL) {
+		FreeBSTree(root->left);
+		FreeBSTree(root->right);
 		free(root);
 	}
 }
 
-bool SearchBST (struct BSTreeNode * root , int search_val) {
-
+bool HeightBalanced (BSTree root) {
 	if(root == NULL) {
-		return false;
-	} else if (search_val < root->key) {
-		return SearchBST(root->left , search_val);
-	} else if (search_val > root->key ){
-		 return SearchBST(root->right , search_val);
+		return true;
 	} else {
-		return true;	
-	}
-}
-
-struct BSTreeNode * FindMaxBST (struct BSTreeNode * root) {
-
-	struct BSTreeNode * curr = root;
-	while(curr->right != NULL) {
-		curr = curr->right;
-	}
-	return curr;
-}
-
-struct BSTreeNode * FindMinBST (struct BSTreeNode * root) {
-
-	struct BSTreeNode * current = root;
-	while(current->left != NULL) {
-		current = current->left;
-	}
-	return current;
-}
-
-struct BSTreeNode * DeleteBSTNode (struct BSTreeNode * root , int value) {
-
-	if (root == NULL) return root;
-
-	//DELETE NODE WITH ONLY ONE CHILD
-	if (value < root->key) {
-		root->left = DeleteBSTNode (root->left , value);
-	} else if (value > root->key) {
-		root->right = DeleteBSTNode (root->right , value);
-	} else {
-		if (root->left == NULL) {
-			struct BSTreeNode * temp = root->right;
-			free(root);
-			return temp;
-		} else if (root->right == NULL) {
-			struct BSTreeNode * temp = root->left;
-			free(root);
-			return temp;
+		int LHeight = TreeHeight(root->left);
+		int RHeight = TreeHeight(root->right);
+		if(abs(LHeight-RHeight) <= 1 &&
+			HeightBalanced(root->left) &&
+			HeightBalanced(root->right)) {
+			return true;
 		}
-	
-		//DELETE NODE WITH TWO CHILDREN
-		struct BSTreeNode * temp = FindMinBST(root->right);
-		root->key = temp->key;
-		root->right - DeleteBSTNode(root->right , temp->key);
+		return false;
 	}
-	
-	return root;
+}
+
+void InFixOrder   (BSTree root) {
+
+	if(root == NULL) return;
+
+	InFixOrder(root->left);
+	printf("%d " , root->value);
+	InFixOrder(root->right);
 
 }
 
-void Action () {
- 	
-	printf("\n0. Exit program\n");
-	printf("1. Search for a term in BST\n");
-	printf("2. Delete a term from the BST\n");
-	printf("3. Find maximal element within BST\n");
-	printf("4. Find mininal element within BST\n");
+void PrefixOrder  (BSTree root) {
+
+	if(root == NULL) return;
+
+	InFixOrder(root->left);
+	InFixOrder(root->right);
+	printf("%d " , root->value);
+
 }
 
+void PostFixOrder (BSTree root) {
+
+	if(root == NULL) return;
+
+	printf("%d " , root->value);
+	InFixOrder(root->left);
+	InFixOrder(root->right);
+
+}

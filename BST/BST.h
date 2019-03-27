@@ -1,22 +1,19 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
 
-#define COUNT 5 
+typedef struct BSTreeNode * BSTree;
 
-struct BSTreeNode {
-	int    key;
-	struct BSTreeNode * left;
-	struct BSTreeNode * right;
-};
+BSTree BSTreeNodeInsert (BSTree root , int value);
+BSTree MakeNewNode 		(int value);
 
-struct BSTreeNode * CreateNode     (int value);
-struct BSTreeNode * CreateBST	   (struct BSTreeNode * root);
-struct BSTreeNode * InsertBSTNode  (struct BSTreeNode * root , int key);
-struct BSTreeNode * FindMaxBST	   (struct BSTreeNode * root);
-struct BSTreeNode * FindMinBST     (struct BSTreeNode * root);
-struct BSTreeNode * DeleteBSTNode  (struct BSTreeNode * root , int value); 
-bool   		    	SearchBST 	   (struct BSTreeNode * root , int search_val);
-void   		    	TraverseBST    (struct BSTreeNode * root , int space);
-void   		    	FreeBST        (struct BSTreeNode * root);
-void   		    	Action	   ();
+void TraverseBST  (BSTree root , int space);
+void InFixOrder   (BSTree root);
+void PrefixOrder  (BSTree root);
+void PostFixOrder (BSTree root);
+void FreeBSTree   (BSTree root);
+
+int CountTotalNodes     (BSTree root);
+int CountLeaves    		(BSTree root);
+int CountInternalNodes	(BSTree root);
+int TreeHeight     		(BSTree root);
+
+bool HeightBalanced (BSTree root);
