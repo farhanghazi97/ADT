@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "Graph.h"
 
 #define MAX_NODES 10
@@ -27,7 +28,11 @@ int main(void) {
 	}
 	showGraph(new_graph);
 
-	printf("\n----- TEST DELETE FUNCTION -----\n\n");
+ 	BFS(new_graph , 5);
+
+
+
+	/*printf("\n----- TEST DELETE FUNCTION -----\n\n");
 
 	int cont = 1;
 	int src = 0;
@@ -45,7 +50,7 @@ int main(void) {
 
 		printf("\nContinue removing?\n");
 		scanf("%d" , &cont);
-	}
+	}*/
 
 	freeGraph(new_graph);
 }

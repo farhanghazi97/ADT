@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "Graph.h"
+#include "Queue.h"
 
 Graph newGraph (int size) {
 	Graph new_graph = malloc(sizeof(GraphRep));
@@ -191,4 +192,26 @@ void freeGraph (Graph g) {
 	free(g->InLinks);
 	free(g->VDataArray);
 	free(g);
+}
+
+void BFS (Graph g , int source) {
+
+	int * visited = calloc(g->nV , sizeof(int));
+	Queue new_queue = newQueue();
+	new_queue = Enqueue(new_queue , source);
+	visited[source] = 1;
+
+	while(!QueueIsEmpty(new_queue)) {
+		int vertex = Dequeue(new_queue);
+		printf("%d | " , vertex);
+		AdjList neighbours = outListfromVertex(g , vertex);
+		while(neighbours != NULL) {
+			if(visited[neighbours->vertex] == 0) {
+				new_queue = Enqueue(new_queue , neighbours->vertex);
+				visited[neighbours->vertex] = 1;
+			}
+			neighbours = neighbours->next;
+		}
+	}
+	free(visited);
 }
