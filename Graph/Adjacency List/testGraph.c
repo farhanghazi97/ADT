@@ -31,6 +31,8 @@ int main(void) {
 
 	BFS(new_graph , 0);
 
+	DFS(new_graph , 0);
+
 
 
 	/*printf("\n----- TEST DELETE FUNCTION -----\n\n");
