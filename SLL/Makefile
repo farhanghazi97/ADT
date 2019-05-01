@@ -5,3 +5,6 @@ SLL : SLL.o
 	$(CC) -o SLL SLL.o
 
 SLL.o : SLL.c SLL.h
+
+clean:
+	rm -f *.o core
