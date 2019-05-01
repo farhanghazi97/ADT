@@ -175,6 +175,7 @@ void freeGraph (Graph g) {
 	free(g);
 }
 
+// Prints all vertices reachable from source
 void BFS (Graph g , int source) {
 
 	int * visited = calloc(g->nV , sizeof(int));
@@ -199,6 +200,7 @@ void BFS (Graph g , int source) {
 	FreeQueue(new_queue);
 }
 
+// Prints all vertices reachable from source
 void DFS (Graph g , int source) {
 
 	int * visited = calloc(g->nV , sizeof(int));
@@ -221,6 +223,11 @@ void DFS (Graph g , int source) {
 	printf("\n");
 	free(visited);
 	FreeStack(new_stack);
+}
+
+
+void Dijkstra(Graph g , int src , int dest) {
+	
 }
 
 int NodeVertex(AdjList node) {

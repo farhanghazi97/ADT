@@ -38,9 +38,11 @@ VList 	newVDataNode 	  (void);
 int  	NodeVertex 	 	  (AdjList node);
 int     nOutLinks	 	  (VList node);
 int 	nInLinks	 	  (VList node);
+
 void    InsertLink  	  (Edge  e , Graph g);
 void 	RemoveLink   	  (Graph g , int src , int dest);
 void    BFS 			  (Graph g , int source);
 void    DFS 			  (Graph g , int source);
+void 	Dijkstra		  (Graph g , int src , int dest);
 void 	showGraph         (Graph g);
 void 	freeGraph 	 	  (Graph g);

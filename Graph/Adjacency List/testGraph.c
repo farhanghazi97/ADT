@@ -29,10 +29,10 @@ int main(void) {
 	showGraph(new_graph);
 
 	// BFS uses a queue
- 	BFS(new_graph , 4);
+ 	BFS(new_graph , 6);
 
 	// DFS uses a stack
-	DFS(new_graph , 4);
+	DFS(new_graph , 6);
 
 
 
