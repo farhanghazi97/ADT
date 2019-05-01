@@ -13,13 +13,21 @@ Queue newQueue(void){
     return new_queue;
 }
 
-Queue Enqueue (Queue q , int value) {
-    QNode new_node = newQNode(value);
+Queue Enqueue (Queue q , int value , int weight) {
+
+    QNode start = q->head;
+    QNode new_node = newQNode(value , weight);
     if(q->head == NULL) {
-        q->head = q->tail = new_node;
+        q->head = new_node;
+    } else if(q->head->weight > weight) {
+        new_node->next = q->head;
+        q->head = new_node;
     } else {
-        q->tail->next = new_node;
-        q->tail = new_node;
+        while(start->next != NULL && start->next->weight < weight) {
+            start = start->next;
+        }
+        new_node->next = start->next;
+        start->next = new_node;
     }
     q->size++;
     return q;
@@ -27,37 +35,27 @@ Queue Enqueue (Queue q , int value) {
 
 int Dequeue (Queue q) {
     assert(q != NULL);
-    int vertex = 0;
-    if(q->size == 1) {
-        QNode temp = q->tail;
-        vertex = q->tail->value;
-        free(temp);
-        q->head = q->tail = NULL;
-        q->size--;
-    } else {
-        QNode temp = q->head;
-        vertex = q->head->value;
-        q->head = q->head->next;
-        free(temp);
-        temp = NULL;
-        q->size--;
-    }
+    QNode temp = q->head;
+    int vertex = temp->value;
+    q->head = q->head->next;
+    q->size--;
     return vertex;
 }
 
-QNode newQNode (int value) {
+QNode newQNode (int value , int weight) {
     QNode new_node = malloc(sizeof(QueueNode));
     assert(new_node != NULL);
     new_node->value = value;
+    new_node->weight = weight;
     new_node->next = NULL;
     return new_node;
 }
 
 void PrintQueue (Queue q) {
     QNode curr = q->head;
-    printf("Printing queue...\nSize : %d\n" , q->size);
+    printf("Printing queue...\n");
     while(curr != NULL) {
-        printf("%d | " , curr->value);
+        printf("%d - (%d) | " , curr->value , curr->weight);
         curr = curr->next;
     }
     printf("\n");

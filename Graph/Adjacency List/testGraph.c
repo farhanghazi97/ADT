@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "Graph.h"
+#include "Queue.h"
 
 #define MAX_NODES 10
 
@@ -28,11 +29,7 @@ int main(void) {
 	}
 	showGraph(new_graph);
 
-	// BFS uses a queue
- 	BFS(new_graph , 6);
-
-	// DFS uses a stack
-	DFS(new_graph , 6);
+	BFS(new_graph , 0);
 
 
 

@@ -180,7 +180,7 @@ void BFS (Graph g , int source) {
 
 	int * visited = calloc(g->nV , sizeof(int));
 	Queue new_queue = newQueue();
-	new_queue = Enqueue(new_queue , source);
+	new_queue = Enqueue(new_queue , source , 0);
 	visited[source] = 1;
 
 	while(!QueueIsEmpty(new_queue)) {
@@ -189,7 +189,7 @@ void BFS (Graph g , int source) {
 		AdjList neighbours = outListfromVertex(g , vertex);
 		while(neighbours != NULL) {
 			if(visited[neighbours->vertex] == 0) {
-				new_queue = Enqueue(new_queue , neighbours->vertex);
+				new_queue = Enqueue(new_queue , neighbours->vertex , neighbours->weight);
 				visited[neighbours->vertex] = 1;
 			}
 			neighbours = neighbours->next;
@@ -227,7 +227,7 @@ void DFS (Graph g , int source) {
 
 
 void Dijkstra(Graph g , int src , int dest) {
-	
+
 }
 
 int NodeVertex(AdjList node) {
