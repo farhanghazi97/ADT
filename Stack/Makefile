@@ -4,3 +4,6 @@ Stack : Stack.o
 	$(CC) -o Stack Stack.o
 
 Stack.o : Stack.c Stack.h
+
+clean:
+	rm -f *.o core
