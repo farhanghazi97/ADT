@@ -3,6 +3,7 @@
 #include <assert.h>
 #include "Graph.h"
 #include "Queue.h"
+#include "Stack.h"
 
 Graph newGraph (int size) {
 	Graph new_graph = malloc(sizeof(GraphRep));
@@ -213,5 +214,32 @@ void BFS (Graph g , int source) {
 			neighbours = neighbours->next;
 		}
 	}
+	printf("\n");
 	free(visited);
+	FreeQueue(new_queue);
+}
+
+void DFS (Graph g , int source) {
+
+	int * visited = calloc(g->nV , sizeof(int));
+	Stack new_stack = newStack();
+	new_stack = Push(new_stack , source);
+	visited[source] = 1;
+
+	while(!StackIsEmpty(new_stack)) {
+		int vertex = Pop(new_stack);
+		printf("%d | " , vertex);
+		AdjList neighbours = outListfromVertex(g , vertex);
+		while(neighbours != NULL) {
+			if(visited[neighbours->vertex] == 0) {
+				new_stack = Push(new_stack , neighbours->vertex);
+				visited[neighbours->vertex] = 1;
+			}
+			neighbours = neighbours->next;
+		}
+	}
+	printf("\n");
+	free(visited);
+	FreeStack(new_stack);
+
 }

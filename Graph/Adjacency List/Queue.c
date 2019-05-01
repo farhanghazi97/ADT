@@ -25,7 +25,8 @@ Queue Enqueue (Queue q , int value) {
     return q;
 }
 
-int Dequeue (Queue q) {\
+int Dequeue (Queue q) {
+    assert(q != NULL);
     int vertex = 0;
     if(q->size == 1) {
         QNode temp = q->tail;
