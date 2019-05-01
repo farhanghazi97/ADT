@@ -127,26 +127,6 @@ void RemoveLink (Graph g , int src , int dest) {
 	}
 }
 
-int NodeVertex(AdjList node) {
-	return node->vertex;
-}
-
-int nOutLinks(VList node) {
-	return node->nOut;
-}
-
-int nInLinks(VList node) {
-	return node->nIn;
-}
-
-AdjList outListfromVertex (Graph g , int vertex) {
-	return g->OutLinks[vertex];
-}
-
-AdjList inListfromVertex (Graph g , int vertex) {
-	return g->InLinks[vertex];
-}
-
 void showGraph (Graph g) {
 	for(int i = 0; i < g->nV; i++) {
 		printf("DATA FOR VERTEX %d\n" , i);
@@ -241,5 +221,24 @@ void DFS (Graph g , int source) {
 	printf("\n");
 	free(visited);
 	FreeStack(new_stack);
+}
 
+int NodeVertex(AdjList node) {
+	return node->vertex;
+}
+
+int nOutLinks(VList node) {
+	return node->nOut;
+}
+
+int nInLinks(VList node) {
+	return node->nIn;
+}
+
+AdjList outListfromVertex (Graph g , int vertex) {
+	return g->OutLinks[vertex];
+}
+
+AdjList inListfromVertex (Graph g , int vertex) {
+	return g->InLinks[vertex];
 }
