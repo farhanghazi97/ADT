@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <limits.h>
 #include "Graph.h"
 #include "Queue.h"
 #include "Stack.h"
@@ -226,8 +227,52 @@ void DFS (Graph g , int source) {
 }
 
 
-void Dijkstra(Graph g , int src , int dest) {
+void Dijkstra(Graph g , int src) {
 
+	int dist[g->nV];
+
+	// INTILISE DIST ARRAY TO INF SINCE WE DONT KNOW ANY
+	// SHORTEST DISTANCE
+	for(int i = 0; i < g->nV; i++) {
+		dist[i] = INT_MAX;
+	}
+
+	// INITIALISE PRIORITY QUEUE
+	Queue new_queue = newQueue();
+
+	// ENQUEUE SOURCE NODE
+	new_queue = Enqueue(new_queue , src , 0);
+
+	// DIST FROM SOURCE TO SOURCE IS 0
+	dist[src] = 0;
+
+	// WHILE QUEUE IS NOT EMPTY , SEARCH THROUGH GRAPH FROM SOURCE NODE AND
+	// FIND SHORTEST PATH TO EVERY OTHER NODE (PROVIDED IT IS REACHABLE)
+	while(!QueueIsEmpty(new_queue)) {
+		int extracted_vertex = Dequeue(new_queue);
+		AdjList curr = outListfromVertex(g , extracted_vertex);
+		while(curr != NULL) {
+			if(dist[curr->vertex] > dist[extracted_vertex] + curr->weight) {
+				dist[curr->vertex] = dist[extracted_vertex] + curr->weight;
+				new_queue = Enqueue(new_queue , curr->vertex , curr->weight);
+			}
+			curr = curr->next;
+		}
+	}
+
+	// BY NOW , DIJKSTRA WOULD HAVE EVALUATED SHORTEST PATH TO REACHABLE NODES
+	// MARK UNREACHABLE NODES WITH -1
+	for(int i = 0; i < g->nV; i++) {
+		if(dist[i] == INT_MAX) {
+			dist[i] = -1;
+		}
+	}
+
+	// PRINT SHORTEST DIST ARRAY
+	printf("From source vertex %d\n" , src);
+	for(int i = 0; i < g->nV; i++) {
+		printf("shortest distance to %d = %d\n" , i , dist[i]);
+	}
 }
 
 int NodeVertex(AdjList node) {

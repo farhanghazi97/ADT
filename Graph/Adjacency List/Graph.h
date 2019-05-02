@@ -43,6 +43,6 @@ void    InsertLink  	  (Edge  e , Graph g);
 void 	RemoveLink   	  (Graph g , int src , int dest);
 void    BFS 			  (Graph g , int source);
 void    DFS 			  (Graph g , int source);
-void 	Dijkstra		  (Graph g , int src , int dest);
+void 	Dijkstra		  (Graph g , int src);
 void 	showGraph         (Graph g);
 void 	freeGraph 	 	  (Graph g);

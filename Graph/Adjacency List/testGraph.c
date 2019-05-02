@@ -33,6 +33,7 @@ int main(void) {
 
 	DFS(new_graph , 0);
 
+	Dijkstra(new_graph , 0);
 
 
 	/*printf("\n----- TEST DELETE FUNCTION -----\n\n");
