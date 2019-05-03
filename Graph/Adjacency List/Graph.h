@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct AdjNode    * AdjList;
-typedef struct GraphRep   * Graph;
-typedef struct VertexData * VList;
+typedef struct AdjNode    		* AdjList;
+typedef struct GraphRep   		* Graph;
+typedef struct VertexData 		* VList;
+typedef struct ShortestPathData * SPDataArray;
+typedef struct PredNode 		* PNode;
 
 typedef struct GraphRep {
 	int nV;
@@ -29,20 +31,33 @@ typedef struct VertexData {
 	int nOut;
 } VertexData;
 
-Graph   newGraph     	  (int size);
-AdjList newAdjNode   	  (int vertex , int weight);
-AdjList outListfromVertex (Graph g , int vertex);
-AdjList inListfromVertex  (Graph g , int vertex);
-VList 	newVDataNode 	  (void);
+typedef struct PredNode {
+	int vertex;
+	PNode next;
+} PredNode;
 
-int  	NodeVertex 	 	  (AdjList node);
-int     nOutLinks	 	  (VList node);
-int 	nInLinks	 	  (VList node);
+typedef struct ShortestPathData {
+	int      * dist_array;
+	PNode 	 * pred_array;
+} ShortestPathData;
 
-void    InsertLink  	  (Edge  e , Graph g);
-void 	RemoveLink   	  (Graph g , int src , int dest);
+Graph   	newGraph     (int size);
+AdjList 	newAdjNode   (int vertex , int weight);
+VList 		newVDataNode (void);
+SPDataArray	newSPDNode 	 (int vertices);
+PNode 		newPredNode(int vertex);
+
 void    BFS 			  (Graph g , int source);
 void    DFS 			  (Graph g , int source);
 void 	Dijkstra		  (Graph g , int src);
+
+AdjList outListfromVertex (Graph g , int vertex);
+AdjList inListfromVertex  (Graph g , int vertex);
+int  	NodeVertex 	 	  (AdjList node);
+int     nOutLinks	 	  (VList node);
+int 	nInLinks	 	  (VList node);
+void    InsertLink  	  (Edge  e , Graph g);
+void 	RemoveLink   	  (Graph g , int src , int dest);
 void 	showGraph         (Graph g);
 void 	freeGraph 	 	  (Graph g);
+void 	FreeSPDataArray	  (SPDataArray SPNode);

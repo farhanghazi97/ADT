@@ -27,11 +27,12 @@ int main(void) {
 			printf("\nEnter 'Y' to add connection. Enter 'N' to stop\n");
 		}
 	}
+
 	showGraph(new_graph);
 
-	BFS(new_graph , 0);
+	//BFS(new_graph , 0);
 
-	DFS(new_graph , 0);
+	//DFS(new_graph , 0);
 
 	Dijkstra(new_graph , 0);
 

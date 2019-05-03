@@ -70,5 +70,11 @@ bool QueueIsEmpty (Queue q) {
 }
 
 void FreeQueue (Queue q) {
+    QNode curr = q->head;
+    while(curr != NULL) {
+        QNode temp = curr;
+        free(temp);
+        curr = curr->next;
+    }
     free(q);
 }
