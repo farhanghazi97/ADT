@@ -36,13 +36,6 @@ int main(void) {
 
 	Dijkstra(new_graph , 0);
 
-	bool hasCycle = isCyclic(new_graph);
-	if(hasCycle) {
-		printf("Graph is cyclic!\n");
-	} else {
-		printf("Graph does not have a cycle!\n");
-	}
-
 	/*printf("\n----- TEST DELETE FUNCTION -----\n\n");
 
 	int cont = 1;
