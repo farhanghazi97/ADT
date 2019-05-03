@@ -51,6 +51,8 @@ PNode 		newPredNode(int vertex);
 void    BFS 			  (Graph g , int source);
 void    DFS 			  (Graph g , int source);
 void 	Dijkstra		  (Graph g , int src);
+bool	isCyclic		  (Graph g);
+bool 	isCyclicAux		  (Graph g , int vertex , int * visited , int * stack);
 
 AdjList outListfromVertex (Graph g , int vertex);
 AdjList inListfromVertex  (Graph g , int vertex);

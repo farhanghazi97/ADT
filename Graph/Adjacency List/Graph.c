@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <limits.h>
+#include <stdbool.h>
 #include "Graph.h"
 #include "Queue.h"
 #include "Stack.h"
@@ -172,6 +173,20 @@ void showGraph (Graph g) {
 	}
 }
 
+void FreeSPDataArray (SPDataArray SPNode) {
+	free(SPNode->dist_array);
+	for(int i = 0; i < SPNode->vertices; i++) {
+		PNode curr = SPNode->pred_array[i];
+		while(curr != NULL) {
+			PNode temp = curr;
+			free(temp);
+			curr = curr->next;
+		}
+	}
+	free(SPNode->pred_array);
+	free(SPNode);
+}
+
 void freeGraph (Graph g) {
 	for(int i = 0; i < g->nV; i++) {
 		AdjList curr_out = g->OutLinks[i];
@@ -245,18 +260,33 @@ void DFS (Graph g , int source) {
 	FreeStack(new_stack);
 }
 
-void FreeSPDataArray (SPDataArray SPNode) {
-	free(SPNode->dist_array);
-	for(int i = 0; i < SPNode->vertices; i++) {
-		PNode curr = SPNode->pred_array[i];
+bool isCyclicAux (Graph g , int vertex , int * visited , int * stack) {
+	if(visited[vertex] == 0) {
+		visited[vertex] = 1;
+		stack[vertex] = 1;
+		AdjList curr = outListfromVertex(g , vertex);
 		while(curr != NULL) {
-			PNode temp = curr;
-			free(temp);
+			if(!visited[curr->vertex] && isCyclicAux(g , curr->vertex , visited , stack)) {
+				return true;
+			} else if (stack[curr->vertex] == 1) {
+				return true;
+			}
 			curr = curr->next;
 		}
 	}
-	free(SPNode->pred_array);
-	free(SPNode);
+	stack[vertex] = 0;
+	return false;
+}
+
+bool isCyclic (Graph g) {
+	int * visited = calloc(g->nV , sizeof(int));
+	int * stack   = calloc(g->nV , sizeof(int));
+	for(int i = 0; i < g->nV; i++) {
+		if(isCyclicAux(g ,i , visited , stack)){
+			return true;
+		}
+	}
+	return false;
 }
 
 // Evaluates shortest path to every reachable vertex from source vertex
