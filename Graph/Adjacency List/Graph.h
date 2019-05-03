@@ -37,6 +37,7 @@ typedef struct PredNode {
 } PredNode;
 
 typedef struct ShortestPathData {
+	int 	vertices;
 	int      * dist_array;
 	PNode 	 * pred_array;
 } ShortestPathData;

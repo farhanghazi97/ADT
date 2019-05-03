@@ -44,6 +44,18 @@ PNode newPredNode(int vertex) {
 	return newPNode;
 }
 
+SPDataArray	newSPDNode (int vertices) {
+	SPDataArray newSPNode = malloc(sizeof(SPDataArray));
+	newSPNode->vertices = vertices;
+	newSPNode->dist_array = malloc(vertices * sizeof(int));
+	newSPNode->pred_array = malloc(vertices * sizeof(PredNode));
+	for(int i = 0; i < vertices; i++) {
+		newSPNode->dist_array[i] = INT_MAX;
+		newSPNode->pred_array[i] = NULL;
+	}
+	return newSPNode;
+}
+
 void InsertLink (Edge e , Graph g) {
 
 	AdjList new_node_out = newAdjNode(e.dest , e.weight);
@@ -233,19 +245,18 @@ void DFS (Graph g , int source) {
 	FreeStack(new_stack);
 }
 
-SPDataArray	newSPDNode (int vertices) {
-	SPDataArray newSPNode = malloc(sizeof(SPDataArray));
-	newSPNode->dist_array = malloc(vertices * sizeof(int));
-	newSPNode->pred_array = malloc(vertices * sizeof(PredNode));
-	for(int i = 0; i < vertices; i++) {
-		newSPNode->dist_array[i] = INT_MAX;
-		newSPNode->pred_array[i] = NULL;
-	}
-	return newSPNode;
-}
-
 void FreeSPDataArray (SPDataArray SPNode) {
-
+	free(SPNode->dist_array);
+	for(int i = 0; i < SPNode->vertices; i++) {
+		PNode curr = SPNode->pred_array[i];
+		while(curr != NULL) {
+			PNode temp = curr;
+			free(temp);
+			curr = curr->next;
+		}
+	}
+	free(SPNode->pred_array);
+	free(SPNode);
 }
 
 // Evaluates shortest path to every reachable vertex from source vertex
@@ -270,17 +281,17 @@ void Dijkstra(Graph g , int src) {
 		AdjList curr = outListfromVertex(g , extracted_vertex);
 		while(curr != NULL) {
 			if(newSP->dist_array[curr->vertex] >= newSP->dist_array[extracted_vertex] + curr->weight) {
-				if(newSP->dist_array[curr->vertex] == newSP->dist_array[extracted_vertex] + curr->weight) {
-					PNode curr = newSP->pred_array[curr->vertex];
-					while(curr->next != NULL) {
-						curr = curr->next;
-					}
-					curr->next = newPredNode(extracted_vertex);
-				} else {
+				if(newSP->pred_array[curr->vertex] == NULL) {
 					newSP->pred_array[curr->vertex] = newPredNode(extracted_vertex);
-					newSP->dist_array[curr->vertex] = newSP->dist_array[extracted_vertex] + curr->weight;
-					new_queue = Enqueue(new_queue , curr->vertex , curr->weight);
+				} else {
+					PNode pred_curr = newSP->pred_array[curr->vertex];
+					while(pred_curr->next != NULL) {
+						pred_curr = pred_curr->next;
+					}
+					pred_curr->next = newPredNode(extracted_vertex);
 				}
+				newSP->dist_array[curr->vertex] = newSP->dist_array[extracted_vertex] + curr->weight;
+				new_queue = Enqueue(new_queue , curr->vertex , curr->weight);
 			}
 			curr = curr->next;
 		}
@@ -299,8 +310,10 @@ void Dijkstra(Graph g , int src) {
 	for(int i = 0; i < g->nV; i++) {
 		printf("shortest distance to %d = %d\n" , i , newSP->dist_array[i]);
 		if(newSP->dist_array[i] != -1) {
+			if(newSP->pred_array[i] != NULL && newSP->pred_array[i]->vertex != src) {
+				printf("[%d] -> " , src);
+			}
 			PNode curr = newSP->pred_array[i];
-			printf("[%d] -> " , src);
 			while(curr != NULL) {
 				printf("[%d] -> " , curr->vertex);
 				curr = curr->next;

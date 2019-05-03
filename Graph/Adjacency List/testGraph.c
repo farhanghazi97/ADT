@@ -28,7 +28,7 @@ int main(void) {
 		}
 	}
 
-	showGraph(new_graph);
+	//showGraph(new_graph);
 
 	//BFS(new_graph , 0);
 
