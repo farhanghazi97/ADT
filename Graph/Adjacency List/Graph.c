@@ -250,6 +250,8 @@ void DFS (Graph g , int source) {
 			curr = curr->next;
 		}
 	}
+	free(visited);
+	FreeStack(new_stack);
 }
 
 bool isCyclicAux (Graph g , int vertex , int * visited , int * stack) {

@@ -4,7 +4,7 @@
 #include "Graph.h"
 #include "Queue.h"
 
-#define MAX_NODES 3
+#define MAX_NODES 10
 
 int main(void) {
 
