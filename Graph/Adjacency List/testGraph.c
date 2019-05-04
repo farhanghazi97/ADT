@@ -4,7 +4,7 @@
 #include "Graph.h"
 #include "Queue.h"
 
-#define MAX_NODES 10
+#define MAX_NODES 5
 
 int main(void) {
 
@@ -28,13 +28,19 @@ int main(void) {
 		}
 	}
 
-	//showGraph(new_graph);
+	showGraph(new_graph);
 
 	//BFS(new_graph , 0);
 
 	//DFS(new_graph , 0);
 
 	Dijkstra(new_graph , 0);
+
+	if(isComplete(new_graph)) {
+		printf("Graph is complete!\n");
+	} else {
+		printf("Graph is not complete!\n");
+	}
 
 	/*printf("\n----- TEST DELETE FUNCTION -----\n\n");
 

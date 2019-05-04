@@ -59,6 +59,7 @@ void 	Dijkstra		  (Graph g , int src);
 // CYCLE DETECTION
 bool	isCyclic		  (Graph g);
 bool 	isCyclicAux		  (Graph g , int vertex , int * visited , int * stack);
+bool 	isComplete		  (Graph g);
 
 // MISCELLANEOUS HELPERS
 AdjList outListfromVertex (Graph g , int vertex);
@@ -66,6 +67,7 @@ AdjList inListfromVertex  (Graph g , int vertex);
 int  	NodeVertex 	 	  (AdjList node);
 int     nOutLinks	 	  (VList node);
 int 	nInLinks	 	  (VList node);
+bool 	Adjacent		  (Graph g , int src , int dest);
 void    InsertLink  	  (Edge  e , Graph g);
 void 	RemoveLink   	  (Graph g , int src , int dest);
 

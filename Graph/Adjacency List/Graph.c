@@ -289,6 +289,33 @@ bool isCyclic (Graph g) {
 	return false;
 }
 
+bool Adjacent(Graph g , int src , int dest) {
+	bool flag = false;
+	AdjList curr = outListfromVertex(g , src);
+	while(curr != NULL) {
+		if(curr->vertex == dest) {
+			flag = true;
+			break;
+		}
+		curr = curr->next;
+	}
+	return flag;
+}
+
+bool isComplete(Graph g) {
+	bool flag = true;
+	for(int i = 0; i < g->nV; i++) {
+		for(int j = 0; j < g->nV; j++) {
+			if(i == j) continue;
+			if(!Adjacent(g , i , j)) {
+				flag = false;
+				break;
+			}
+		}
+	}
+	return flag;
+}
+
 // Evaluates shortest path to every reachable vertex from source vertex
 void Dijkstra(Graph g , int src) {
 
