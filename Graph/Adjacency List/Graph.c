@@ -212,52 +212,44 @@ void freeGraph (Graph g) {
 
 // Prints all vertices reachable from source
 void BFS (Graph g , int source) {
-
 	int * visited = calloc(g->nV , sizeof(int));
 	Queue new_queue = newQueue();
 	new_queue = Enqueue(new_queue , source , 0);
 	visited[source] = 1;
-
 	while(!QueueIsEmpty(new_queue)) {
 		int vertex = Dequeue(new_queue);
 		printf("%d | " , vertex);
-		AdjList neighbours = outListfromVertex(g , vertex);
-		while(neighbours != NULL) {
-			if(visited[neighbours->vertex] == 0) {
-				new_queue = Enqueue(new_queue , neighbours->vertex , neighbours->weight);
-				visited[neighbours->vertex] = 1;
+		AdjList curr = outListfromVertex(g , vertex);
+		while(curr != NULL) {
+			if(visited[curr->vertex] == 0) {
+				visited[curr->vertex] = 1;
+				new_queue = Enqueue(new_queue , curr->vertex , curr->weight);
 			}
-			neighbours = neighbours->next;
+			curr = curr->next;
 		}
 	}
-	printf("\n");
 	free(visited);
 	FreeQueue(new_queue);
 }
 
 // Prints all vertices reachable from source
 void DFS (Graph g , int source) {
-
 	int * visited = calloc(g->nV , sizeof(int));
 	Stack new_stack = newStack();
 	new_stack = Push(new_stack , source);
 	visited[source] = 1;
-
 	while(!StackIsEmpty(new_stack)) {
 		int vertex = Pop(new_stack);
 		printf("%d | " , vertex);
-		AdjList neighbours = outListfromVertex(g , vertex);
-		while(neighbours != NULL) {
-			if(visited[neighbours->vertex] == 0) {
-				new_stack = Push(new_stack , neighbours->vertex);
-				visited[neighbours->vertex] = 1;
+		AdjList curr = outListfromVertex(g , vertex);
+		while(curr != NULL) {
+			if(visited[curr->vertex] == 0) {
+				new_stack = Push(new_stack , curr->vertex);
+				visited[curr->vertex] = 1;
 			}
-			neighbours = neighbours->next;
+			curr = curr->next;
 		}
 	}
-	printf("\n");
-	free(visited);
-	FreeStack(new_stack);
 }
 
 bool isCyclicAux (Graph g , int vertex , int * visited , int * stack) {
@@ -266,9 +258,9 @@ bool isCyclicAux (Graph g , int vertex , int * visited , int * stack) {
 		stack[vertex] = 1;
 		AdjList curr = outListfromVertex(g , vertex);
 		while(curr != NULL) {
-			if(!visited[curr->vertex] && isCyclicAux(g , curr->vertex , visited , stack)) {
+			if(!visited[curr->vertex] && isCyclicAux(g , curr->vertex , visited, stack)) {
 				return true;
-			} else if (stack[curr->vertex] == 1) {
+			} else if(stack[curr->vertex] == 1){
 				return true;
 			}
 			curr = curr->next;
@@ -282,7 +274,7 @@ bool isCyclic (Graph g) {
 	int * visited = calloc(g->nV , sizeof(int));
 	int * stack   = calloc(g->nV , sizeof(int));
 	for(int i = 0; i < g->nV; i++) {
-		if(isCyclicAux(g ,i , visited , stack)){
+		if(isCyclicAux(g , i , visited, stack)) {
 			return true;
 		}
 	}

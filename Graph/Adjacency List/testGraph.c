@@ -4,7 +4,7 @@
 #include "Graph.h"
 #include "Queue.h"
 
-#define MAX_NODES 4
+#define MAX_NODES 3
 
 int main(void) {
 
@@ -34,8 +34,6 @@ int main(void) {
 
 	DFS(new_graph , 0);
 
-	Dijkstra(new_graph , 0);
-
 	if(isCyclic(new_graph)) {
 		printf("Graph contains a cycle!\n");
 	} else {
@@ -47,6 +45,8 @@ int main(void) {
 	} else {
 		printf("Graph is not complete!\n");
 	}
+
+	Dijkstra(new_graph , 0);
 
 	/*printf("\n----- TEST DELETE FUNCTION -----\n\n");
 
