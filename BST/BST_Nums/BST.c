@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <assert.h>
 
 #include "BST.h"
 
@@ -10,7 +11,48 @@ typedef struct BSTreeNode {
 	int value;
 	BSTree left;
 	BSTree right;
+	int height;
 } BSTreeNode;
+
+int max(int a , int b) {
+	return (a > b) ? a : b;
+}
+
+int getBalanceFactor(BSTree root) {
+	if(root == NULL) {
+		return 0;
+	} else {
+		return (NodeHeight(root->left) - NodeHeight(root->right));
+	}
+}
+
+BSTree RotateR(BSTree y) {
+	assert(y != NULL);
+	BSTree x = y->left;
+	BSTree T2 = x->right;
+	//Perform rotation
+	x->right= y;
+	y->left = T2;
+	//Update heights
+	y->height = max(NodeHeight(y->left) , NodeHeight(y->right)) + 1;
+	x->height = max(NodeHeight(x->left) , NodeHeight(x->right)) + 1;
+	// Return new root
+	return x;
+}
+
+BSTree RotateL(BSTree x) {
+	assert(x != NULL);
+	BSTree y = x->right;
+	BSTree T2 = y->left;
+	//Perform rotation
+	y->left = x;
+	x->right = T2;
+	//Update heights
+	x->height = max(NodeHeight(x->left) , NodeHeight(x->right)) + 1;
+	y->height = max(NodeHeight(y->left) , NodeHeight(y->right)) + 1;
+	//Return new root;
+	return y;
+}
 
 BSTree BSTreeNodeInsert (BSTree root , int value) {
 
@@ -21,6 +63,29 @@ BSTree BSTreeNodeInsert (BSTree root , int value) {
 	} else if(root->value > value) {
 		root->right = BSTreeNodeInsert (root->right , value);
 	}
+
+	root->height = 1 + max(NodeHeight(root->left) , NodeHeight(root->right));
+
+	int balance_factor = getBalanceFactor(root);
+
+	// Left-Left case
+	if(balance_factor > 1 && value < root->left->value) {
+		return RotateR(root);
+	}
+	// Right-Right case
+	if(balance_factor < -1 && value > root->right->value) {
+		return RotateL(root);
+	}
+	// Left-Right case
+	if(balance_factor > 1 && value > root->left->value) {
+		root->left = RotateL(root->left);
+		return RotateR(root);
+	}
+	//Right-Left case
+	if(balance_factor < -1 && value < root->right->value) {
+		root->right = RotateR(root->right);
+		return RotateL(root);
+	}
 	return root;
 }
 
@@ -30,9 +95,19 @@ BSTree MakeNewNode (int value) {
 	new_node->value = value;
 	new_node->left = NULL;
 	new_node->right = NULL;
+	new_node->height = 1;
 	return new_node;
 
 }
+
+int NodeHeight(BSTree root) {
+	if(root == NULL) {
+		return 0;
+	} else {
+		return root->height;
+	}
+}
+
 
 int CountTotalNodes (BSTree root) {
 
