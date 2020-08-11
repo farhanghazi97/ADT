@@ -230,6 +230,7 @@ void BFS (Graph g , int source) {
 	}
 	free(visited);
 	FreeQueue(new_queue);
+	printf("\n");
 }
 
 // Prints all vertices reachable from source
@@ -252,6 +253,7 @@ void DFS (Graph g , int source) {
 	}
 	free(visited);
 	FreeStack(new_stack);
+	printf("\n");
 }
 
 bool isCyclicAux (Graph g , int vertex , int * visited , int * stack) {

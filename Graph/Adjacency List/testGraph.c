@@ -30,8 +30,10 @@ int main(void) {
 
 	showGraph(new_graph);
 
+	printf("Running BFS...\n");
 	BFS(new_graph , 0);
 
+	printf("Running DFS...\n");
 	DFS(new_graph , 0);
 
 	if(isCyclic(new_graph)) {
