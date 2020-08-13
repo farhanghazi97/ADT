@@ -151,7 +151,11 @@ int main(void) {
 	mergeSort(nums, 0, SIZE);
 	printArray(nums, SIZE);
 
-	int location = find(nums, 41256, SIZE);
+	int target = 0;
+	printf("Enter target value to find: ");
+	scanf("%d", &target);
+
+	int location = find(nums, target, SIZE);
 	if(location != -1)
       printf("\nElement found at location: %d\n" ,(location+1));
     else
