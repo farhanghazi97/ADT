@@ -161,7 +161,7 @@ int main(void) {
     else
       printf("\nElement not found.\n");
 	
-	//mergeSort(nums , 0, SIZE);
+	mergeSort(nums , 0, SIZE);
 	//bubbleSort(nums, SIZE);
 	
 	//printArray(nums, SIZE);
